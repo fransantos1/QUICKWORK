@@ -3,23 +3,28 @@
 
 ## 1. Descrição da aplicação
 
-**QuickWork** será uma aplicação que permitirá que um utilizador crie um trabalho, e
-que outro caso tenha a disponibilidade e as ferramentas, possa ir fazer esse trabalho,
-como uma espécie de aluguer de mão de obra.
+**QuickWork** será uma aplicação que permitirá ajudar pessoas que precisam de
+assistência em tarefas domésticas, ou que não têm capacidades financeiras para
+comprar ferramentas profissionais, dando-lhes a hipótese de pedir ajuda no serviço, e
+ter uma outra pessoa que tenha as qualificações/ferramentas/tempo para ir auxiliar.
+Uma pessoa que vá auxiliar também poderá pedir ajuda na aplicação,
+necessitando assim um único tipo de conta, para auxiliar ou pedir ajuda.
 
 ## 2. Motivação do trabalho a realizar
 
-Esta aplicação tem objetivo ajudar pessoas que não tem a disponibilidade de fazer
-certos trabalhos, ou porque estão sozinhas, ou porque não sentem que vale a pena
-comprar ferramentas caras para um trabalho que demore uma tarde, e ajudar também
-quem necessita de dinheiro e não tem trabalho de arranjar necessita de alguma forma
-de ganhar dinheiro mesmo não sendo muito.
+Esta aplicação tem como objetivo ajudar pessoas que não têm a capacidade de
+fazer certos trabalhos, ou porque estão sozinhas, não têm capacidades físicas ou não
+sentem que vale a pena comprar ferramentas caras para um trabalho que demore uma
+tarde.
+
 
 ## 3. Público Alvo
 
-O público alvo da aplicação é qualquer pessoa que tenha mais de 18 anos. Qualquer
-pessoa que queira ganhar algum dinheiro que seja maior de idade pode fazer este tipo
-de trabalho.
+Como foi referido no ponto anterior, o público-alvo desta aplicação seria quem
+estivesse em desvantagem física, ou com pouca capacidade financeira. Este serviço
+também servirá para os jovens adultos (18-25 anos) que não tenham disponibilidade
+para um “full time job”, terem maneira de ganhar dinheiro com tarefas simples nos
+seus tempos livres.
 
 ## 4. Aplicações Semelhates
 
@@ -35,60 +40,73 @@ vice-versa.
 nossa aplicação vamos dividir os trabalhos em temas e a pessoa escolhe o tema onde
 se quer integrar.
 
-## 5. Versão premilinar
+## 5. Guiões
+
+###Utilização do nosso objeto “Core” na aplicação:
+
+O objeto core da nossa aplicação seria a utilização do mapa, que seria onde o
+utilizador poderá visualizar todos os trabalhos disponíveis e escolher qual pretende
+fazer, ou onde poderá também publicar um trabalho
 
 ### Criar uma conta:
 
-Quando um utilizador abre a aplicação pela primeira é lhe mostrado uma
-página de login, onde se o utilizador não tiver conta ainda pode carregar num botão
+Quando um utilizador abre a aplicação pela primeira é-lhe mostrada uma
+página de login, onde, se o utilizador não tiver conta ainda, pode carregar num botão
 que diz “criar conta”.
 Depois do utilizador carregar no botão é pedido para inserir um email, nome de
-usuário, password e para confirmar a password e quais são os tipos de trabalho em
-que se encontra mais confortável. Após o utilizador inserir os seus dados carrega no
-botão de criar conta e a conta é criada
+usuário, password e confirmar a password.
+Na próxima página também é perguntado ao utilizador quais são os tipos de trabalho
+em que se encontra mais confortável.
+Após o utilizador inserir os seus dados carrega no botão de criar conta e a conta é
+criada.
 
 ### Criar tarefa
 
-Quando se abre a aplicação com conta criada, a aplicação abre
-automaticamente no mapa, aí o utilizador em baixo terá um botão, ao clicar nesse
-botão poderá escolher, “criar trabalho”, o utilizador insere os dados do trabalho: qual
-é o trabalho, localização, estimativa de duração, escolher o tema do trabalho, e o
-preço que pretende pagar por esse trabalho. A seguir de inserir esses dados o
-utilizador confirma que quer criar a tarefa, e a tarefa é criada. Quando a tarefa é
-realizada, o utilizador pode classificar o utilizador que foi fazer a tarefa e deixar algum
-comentário se pretender, o vice-versa também ocorre.
+Quando se abre a aplicação, a primeira janela será o mapa, aí o utilizador, em
+baixo terá um botão com um sinal de ‘+’, ao clicar nesse botão poderá escolher, “criar
+trabalho”, insere os dados do trabalho:
+- Qual é o trabalho, localização
+- estimativa de duração
+- Escolher o tema do trabalho
+- Preço que pretende pagar por esse trabalho
+A seguir de inserir esses dados o utilizador confirma que quer criar a tarefa, e a tarefa
+é criada.
+Quando a tarefa é realizada, o “cliente” pode classificar o “trabalhador” e deixar algum
+comentário, se pretender, o vice-versa também ocorre.
 
 ### Escolher tarefa
 
-Quando se abre a aplicação é logo mostrado ao utilizador o mapa, com as
-tarefas disponíveis, aí poderá escolher a tarefa que pretende fazer, quando escolher a
-tarefa, o utilizador apenas carrega na bolha que aparece no mapa, vê o que é que o
-cliente pretende, e poderá ver também o rating que esse cliente tem e os comentários,
-depois o fale com o cliente e vai fazer a tarefa. A seguir quando a tarefa é acabada o
-trabalhador é pago e pode deixar rating e comentários no cliente, e o vice-versa
-também ocorre.
+No mapa, aparecerá, as tarefas disponíveis, aí poderá o utilizador escolher a
+tarefa que pretende fazer, quando escolher a tarefa, é preciso apenas carrega na bolha
+que aparece no mapa, vê o que é que o cliente pretende, e terá acesso também ao
+rating desse cliente e os comentários, depois o fale com o cliente e vai fazer a tarefa. A
+seguir quando a tarefa é acabada o trabalhador é pago e pode deixar rating e
+comentários no cliente, e o vice-versa também ocorre.
 
-### Perfil de cada utilizador
+### Perfil 
 
-O perfil vai contar com uma série de informações sobre o utilizador (Como o nome,
-idade, contactos, e quais os tipos de trabalhos que este se encontra mais à vontade em
-realizar).
-No perfil vai ter o número de trabalhos realizados e a classificação dada após
-completar as tarefas.
-Vai mostrar também quais foram os últimos três trabalhos realizados e as
-respectivas classificações
+O perfil vai conter uma série de informações sobre o utilizador: nome, idade,
+contactos, tipos de trabalhos que este se encontra mais à vontade em realizar, número
+de trabalhos realizados, as classificações/comentários, e os últimos três trabalhos e as
+suas respetivas classificações. 
+
 
 ### Após completar a tarefa
 
-Quando termina a tarefa ambos os utilizadores têm a oportunidade de classificar o
-trabalho realizado por ambos e recomendar a outros num ranking entre 0 e 5.
+Quando termina a tarefa, o cliente pode classificar ou deixar comentários em
+relação ao trabalho e o trabalhador poderá fazer a mesma coisa respetivamente ao
+cliente. O rating será uma classificação de 0 a 5. Pode também deixar uma gratificação
+monetária pelo trabalho prestado
 
 ## 6. Descrição da solução a implementar
 
-**Bases de Dados** - Para criação de bases de dados na criação de perfis e de trabalhos
-**Programação móvel** - Utilização dos aprendizados adquiridos na criação da aplicação
-**Programação orientada a objetos** - Utilização da linguagem java na criação da aplicação
-**Competências Comunicacionais** - Criação da Apresentação
+**Bases de Dados** -  Para armazenar dados, relativos às informações de cada utilizador,
+tipos de trabalho, entre outros.
+**Programação móvel** - Criação da aplicação para android
+**Programação orientada a objetos** - Utilização da linguagem Java para fazer ligação
+entre a base de dados e a aplicação, e processamento de dados.
+**Competências Comunicacionais** - Criação e preparação da Apresentação da nossa
+Aplicação
 
 ## 7. Tecnologias a utilizar
 
@@ -99,6 +117,7 @@ Utilização de computador com os seguintes programas:
 - GitHub
 - ClickUp
 - Telemóvel com android 
+-starUML
 
 
 <sub> Este texto provavelmtente será alterado no futuro </sub>
