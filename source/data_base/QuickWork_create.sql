@@ -109,7 +109,7 @@ create table worktype (
     wt_id SERIAL not null,
 
     wt_name VARCHAR(250) not null,
-    wt_avgprice_hr DECIMAL(10,2) not null,    
+    wt_avgprice_hr MONEY not null,    
 
     primary key (wt_id)
 );
