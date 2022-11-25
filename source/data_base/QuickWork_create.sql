@@ -30,7 +30,7 @@ create table usr(
     usr_email VARCHAR(255) not null,
     usr_password VARCHAR(255) not null,
     usr_njobs INT,
-    usr_avg_rating smallINT not null check (usr_avg_rating between 1 and 5),
+    usr_avg_rating smallINT check (usr_avg_rating between 1 and 5),
     usr_loc POINT,
 
     primary key (usr_id)	

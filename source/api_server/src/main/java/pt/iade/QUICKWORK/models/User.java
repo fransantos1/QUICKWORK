@@ -11,33 +11,36 @@ import javax.persistence.Table;
 @Table(name="usr")
 public class User {
 
-@Id
-@GeneratedValue(strategy=GenerationType.IDENTITY)
-@Column(name="usr_id") private int id;
-@Column(name="usr_name") private String name;
-@Column(name="usr_email") private String email;
-@Column(name="usr_password") private String password;
-@Column(name="usr_njobs") private int number;
-@Column(name="usr_avg_rating") private int rating;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="usr_id") private int id;
+    @Column(name="usr_name") private String name;
+    @Column(name="usr_email") private String email;
+    @Column(name="usr_password") private String password;
+    @Column(name="usr_njobs") private Integer jobnumber;
+    @Column(name="usr_avg_rating") private Integer rating;
 
-public User() {}
 
-public int getId(){return id;}
-public String getName() {
-    return name;
-}
-public String getEmail() {
-    return email;
-}
-public String getPassword() {
-    return password;
-}
-public int getNumber() {
-    return number;
-}
-public int getRating() {
-    return rating;
-}
+    public User() {}
+
+    public int getId(){
+        return id;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public Integer getJobnumber() {
+        return jobnumber;
+    }
+    public Integer getRating() {
+        return rating;
+    }
 
 }
 
