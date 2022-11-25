@@ -3,6 +3,8 @@ package pt.iade.QUICKWORK.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class UserController {
     }   
     //remove a user 
     @DeleteMapping(path="/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Integer usrid){
+    public void delete(@PathVariable("usrid") int usrid){
         User user;
         user = userRepository.findById(usrid).get();
         String name = user.getName();
@@ -48,9 +50,14 @@ public class UserController {
         Logger.info("Delete user "+name);
         userRepository.deleteById(usrid);
     }
+    //get specific user info 
+    @GetMapping(path = "/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<User> getUser(@PathVariable("usrid") int usrid){
+        Logger.info("User with id: "+ usrid + " given");
+        return userRepository.findById(usrid);
+    }
+        
 
 
+}   
 
-
-    
-}
