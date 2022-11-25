@@ -18,7 +18,7 @@ public class Work {
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 @Column(name="work_id") private int id;
 @Column(name="work_pricehr") private int pricehr;
-@Column(name="work_tip") private int tip;
+@Column(name="work_tip") private Integer tip;
 @Column(name="work_starting") private LocalDate started_time;
 @Column(name="work_finished") private LocalDate finished_time;
 @Column(name="work_wt_id") private int state_id;
@@ -33,7 +33,7 @@ public int getPricehr() {
     return pricehr;
 }
 
-public int getTip() {
+public Integer getTip() {
     return tip;
 }
 
@@ -48,6 +48,8 @@ public LocalDate getFinished_time() {
 public int getState_id() {
     return state_id;
 }
+
+
 
 
 
