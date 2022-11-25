@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+import org.hibernate.boot.registry.classloading.spi.ClassLoaderService.Work;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import pt.iade.QUICKWORK.models.User;
 import pt.iade.QUICKWORK.models.repositories.UserRepository;
-
+import pt.iade.QUICKWORK.models.repositories.WorkRepository;
 
 @RestController
 @RequestMapping(path ="/api/users")
@@ -56,8 +57,15 @@ public class UserController {
         Logger.info("User with id: "+ usrid + " given");
         return userRepository.findById(usrid);
     }
-        
+    //get users specific jobs
+    
+    @GetMapping(path="/work/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<> getjobs(@PathVariable("usrid") int usrid){
 
+
+
+        return workrRepository.findAll();
+    }
 
 }   
 

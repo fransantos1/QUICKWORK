@@ -25,6 +25,30 @@ public class Work {
 
 public Work() {}
 
+public int getId() {
+    return id;
+}
+
+public int getPricehr() {
+    return pricehr;
+}
+
+public int getTip() {
+    return tip;
+}
+
+public LocalDate getStarted_time() {
+    return started_time;
+}
+
+public LocalDate getFinished_time() {
+    return finished_time;
+}
+
+public int getState_id() {
+    return state_id;
+}
+
 
 
 }
