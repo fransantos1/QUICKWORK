@@ -494,20 +494,35 @@
 											"top": 1439,
 											"width": 175,
 											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAGEsLMQoARN1og=",
+											"_parent": {
+												"$ref": "AAAAAAGEELb+pSngxEc="
+											},
+											"model": {
+												"$ref": "AAAAAAGEsLMQkgRKZg8="
+											},
+											"font": "Arial;13;0",
+											"left": 461,
+											"top": 1454,
+											"width": 175,
+											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 456,
 									"top": 1359,
 									"width": 185,
-									"height": 98
+									"height": 113
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 456,
 							"top": 1336,
 							"width": 185,
-							"height": 121,
+							"height": 136,
 							"nameLabel": {
 								"$ref": "AAAAAAGEELb+pSnfzzE="
 							},
@@ -534,7 +549,7 @@
 									"font": "Arial;13;1",
 									"left": 224,
 									"top": 1093,
-									"width": 102.22998046875,
+									"width": 106.57177734375,
 									"height": 13,
 									"text": "Tipo_trabalho"
 								},
@@ -560,7 +575,7 @@
 											"font": "Arial;13;0",
 											"left": 229,
 											"top": 1116,
-											"width": 92.22998046875,
+											"width": 96.57177734375,
 											"height": 13
 										},
 										{
@@ -575,21 +590,21 @@
 											"font": "Arial;13;0",
 											"left": 229,
 											"top": 1131,
-											"width": 92.22998046875,
+											"width": 96.57177734375,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 224,
 									"top": 1111,
-									"width": 102.22998046875,
+									"width": 106.57177734375,
 									"height": 38
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 224,
 							"top": 1088,
-							"width": 102.22998046875,
+							"width": 106.57177734375,
 							"height": 61,
 							"nameLabel": {
 								"$ref": "AAAAAAGEELsGnyo5gG8="
@@ -1751,8 +1766,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGEELb+pCnchdk="
 							},
-							"name": "preço",
-							"type": "int",
+							"name": "€hr",
+							"type": "money",
 							"length": 0
 						},
 						{
@@ -1793,6 +1808,16 @@
 							},
 							"name": "tempo",
 							"type": "int",
+							"length": 0
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAGEsLMQkgRKZg8=",
+							"_parent": {
+								"$ref": "AAAAAAGEELb+pCnchdk="
+							},
+							"name": "preço",
+							"type": "money",
 							"length": 0
 						}
 					]
@@ -1880,7 +1905,7 @@
 								"$ref": "AAAAAAGEELsGnyo2TMw="
 							},
 							"name": "€hr",
-							"type": "int",
+							"type": "money",
 							"length": 0
 						}
 					]

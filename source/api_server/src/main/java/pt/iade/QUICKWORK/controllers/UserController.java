@@ -1,5 +1,6 @@
 package pt.iade.QUICKWORK.controllers;
 
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import pt.iade.QUICKWORK.models.User;
-import pt.iade.QUICKWORK.models.Work;
 import pt.iade.QUICKWORK.models.repositories.UserRepository;
 import pt.iade.QUICKWORK.models.views.UsrJobsView;
 
@@ -63,6 +63,15 @@ public class UserController {
           Logger.info("Sending all units");
           return userRepository.findusrjobs(usrid);
       }    
+
+      //user comment on a userwork
+      
+
+
+      //set user location*/-+
+
+
+    
 
 
 }   

@@ -43,6 +43,7 @@ create table usrwork (
 
     uw_usr_id INT not null,
     uw_work_id INT not null,
+    uw_usrcreate boolean not null
 
     primary key (uw_id)
 
@@ -57,10 +58,11 @@ create table work (
     work_id SERIAL not null,
 
     work_loc POINT not null,
-    work_pricehr MONEY not null,
-    work_tip MONEY,
+    work_pricehr DECIMAL(19,4) not null,
+    work_tip DECIMAL(19,4),
     work_starting date,
     work_finished date,
+    price DECIMAL(19,4)
     
     work_wt_id INT not null,
     primary key (work_id)
@@ -109,7 +111,7 @@ create table worktype (
     wt_id SERIAL not null,
 
     wt_name VARCHAR(250) not null,
-    wt_avgprice_hr MONEY not null,    
+    wt_avgprice_hr DECIMAL(19,4) not null,    
 
     primary key (wt_id)
 );

@@ -1,5 +1,6 @@
 package pt.iade.QUICKWORK.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -17,11 +18,14 @@ public class Work {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 @Column(name="work_id") private int id;
-@Column(name="work_pricehr") private int pricehr;
-@Column(name="work_tip") private Integer tip;
+@Column(name="work_pricehr") private Double pricehr;
+@Column(name="work_tip") private Double tip;
 @Column(name="work_starting") private LocalDate started_time;
 @Column(name="work_finished") private LocalDate finished_time;
 @Column(name="work_wt_id") private int state_id;
+@Column(name="work_loc[0]") private double lat;
+@Column(name="work_loc[1]") private double lon;
+ 
 
 public Work() {}
 
@@ -29,11 +33,11 @@ public int getId() {
     return id;
 }
 
-public int getPricehr() {
+public Double getPricehr() {
     return pricehr;
 }
 
-public Integer getTip() {
+public Double getTip() {
     return tip;
 }
 
@@ -48,8 +52,15 @@ public LocalDate getFinished_time() {
 public int getState_id() {
     return state_id;
 }
+//location
 
+public double getlat(){
+    return lat;
+}
 
+public double getlon(){
+    return lon;
+}
 
 
 
