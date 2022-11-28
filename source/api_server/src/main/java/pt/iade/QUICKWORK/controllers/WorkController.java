@@ -46,8 +46,16 @@ public class WorkController {
 
 
     //modify work state
+    @PostMapping(path = "/setstate/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setworkstate(@PathVariable("id") Integer id ,@RequestBody Integer state){
+        Logger.info("work "+ id + " set too: "+ state );//! need to send the correct work state
 
+        workrepository.setstate(state, id);//? cant make this work
+
+
+    }
     //see "owners" info
+
 
     //see all comments on a specified work
 
