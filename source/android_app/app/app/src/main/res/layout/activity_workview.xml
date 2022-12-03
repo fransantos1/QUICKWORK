@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Workview">
+
+    <TextView
+        android:id="@+id/titulotrabalho"
+        style="@style/secTítulo"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="Trabalho"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="40dp" />
+
+
+    <TextView
+        android:id="@+id/tipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:text="Tipo"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titulotrabalho" />
+
+
+    <TextView
+        android:id="@+id/empregador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:fontFamily="sans-serif"
+        android:text="Empregador"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textviewtype" />
+
+    <TextView
+        android:id="@+id/preco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:text="Preço"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textviewloc" />
+
+    <TextView
+        android:id="@+id/textviewtype"
+        style="@style/Edit_Text"
+        android:hint="Tipo"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tipo"/>
+
+    <TextView
+        android:id="@+id/textviewOwner"
+        style="@style/Edit_Text"
+        android:hint="Descrição"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/empregador"
+        app:drawableRightCompat="@drawable/ic_person"/>
+
+    <TextView
+        android:id="@+id/textviewpreco"
+        style="@style/Edit_Text3"
+        android:hint="Preço"
+        android:textColorHint="@color/black"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preco"
+        app:drawableRightCompat="@drawable/ic_euro"/>
+
+    <TextView
+        android:id="@+id/localizacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:text="Localização"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textviewOwner" />
+
+    <TextView
+        android:id="@+id/textviewloc"
+        style="@style/Edit_Text"
+        android:hint="Localização"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/localizacao"
+        app:drawableRightCompat="@drawable/ic_localizacao" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonentrar"
+        style="@style/Button2"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:onClick="switchtoprofileview"
+        android:text="Perfil"
+        app:layout_constraintStart_toEndOf="@+id/empregador"
+        app:layout_constraintTop_toBottomOf="@+id/textviewtype" />
+</androidx.constraintlayout.widget.ConstraintLayout>

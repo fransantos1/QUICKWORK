@@ -1,6 +1,5 @@
 package pt.iade.QUICKWORK.models;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -22,7 +21,7 @@ public class Work {
 @Column(name="work_tip") private Double tip;
 @Column(name="work_starting") private LocalDate started_time;
 @Column(name="work_finished") private LocalDate finished_time;
-@Column(name="work_wt_id") private int state_id;
+@Column(name="work_wt_id") private int typeid;
 @Column(name="work_loc[0]") private double lat;
 @Column(name="work_loc[1]") private double lon;
  
@@ -49,8 +48,8 @@ public LocalDate getFinished_time() {
     return finished_time;
 }
 
-public int getState_id() {
-    return state_id;
+public int gettypeid() {
+    return typeid;
 }
 //location
 

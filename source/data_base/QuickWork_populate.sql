@@ -8,11 +8,34 @@ insert into rating
 
 
 
--- 1st job example 
-Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(38.7115487417554, -9.159549968757467), 23, null, null, null, null, 2)
-insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (14 ,1,true )
-insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (16 ,1, false )
-insert into work_state (ws_work_id, ws_state_id) values (1, 2)
+-- availabel jobs example (will show up on jobs list view) 
+Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(38.7115487417554, -9.159549968757467), 23, null, null, null, null, 2);
+Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(38.63038872078478, -8.932668044543384), 15, null, null, null, null, 4);
+Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(38.81601036752521, -9.357701600445369), 4, null, null, null, null, 5);
+Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(38.834198338681375, -8.407384246660511), 7, null, null, null, null, 3);
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (21 ,8,true );
+insert into work_state (ws_work_id, ws_state_id) values (8, 1);
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (14 ,9,true );
+insert into work_state (ws_work_id, ws_state_id) values (9, 1);
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (17 ,10,true );
+insert into work_state (ws_work_id, ws_state_id) values (10, 1);
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (22 ,11,true );
+insert into work_state (ws_work_id, ws_state_id) values (11, 1);
+Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(40.40706494789366, -8.599644983780125), 8, null, null, null, null, 3);
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (15 ,13,true );
+insert into work_state (ws_work_id, ws_state_id) values (12, 1);
+-- non available jobs example (will NOT show up on jobs list view) 
+
+Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(38.891941069284734, -9.096776322628058), 7, null, 2022-08-14, null, null, 3);
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (15 ,12,true );
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (16 ,12,false );
+insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (19 ,12,false );
+
+insert into work_state (ws_work_id, ws_state_id) values (12, 2);
+
+
+
+
 
 
 
