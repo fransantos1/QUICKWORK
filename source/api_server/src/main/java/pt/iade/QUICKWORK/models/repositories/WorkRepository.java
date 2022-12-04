@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import pt.iade.QUICKWORK.models.Work;
 import pt.iade.QUICKWORK.models.views.Workmapview;
-import pt.iade.QUICKWORK.models.views.getownerview;
 import pt.iade.QUICKWORK.models.views.gettypeView;
 
 

@@ -2,10 +2,8 @@ package pt.iade.QUICKWORK.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pt.iade.QUICKWORK.models.repositories.UserRepository;
 import pt.iade.QUICKWORK.models.repositories.WorkRepository;
 import pt.iade.QUICKWORK.models.views.Workmapview;
-import pt.iade.QUICKWORK.models.views.getownerview;
 import pt.iade.QUICKWORK.models.views.gettypeView;
 
 import java.util.Optional;
@@ -16,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import pt.iade.QUICKWORK.models.User;
 import pt.iade.QUICKWORK.models.Work;
 
 @RestController
@@ -29,7 +24,7 @@ public class WorkController {
 
     @Autowired
     private WorkRepository workrepository;
-    private UserRepository userRepository;
+
 
 
 
@@ -62,6 +57,8 @@ public class WorkController {
     }
     //modify work state
     //! THIS IS WRONG I'M MODIFYING WORK TYPE NEED TO CHANGE THIS ASAP
+    //! THIS DOES NOT WORK DO NOT USE IT
+    /*
     @PostMapping(path = "/setstate/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void setworkstate(@PathVariable("id") Integer id ,@RequestBody Integer state){
         if(workrepository.existsById(id) != false){
@@ -71,6 +68,7 @@ public class WorkController {
 
 
     }
+    */
 
     //TODO GET WORK STATE
     // * /state/{id} 
@@ -79,8 +77,7 @@ public class WorkController {
     // find job creator  
 
 
-
-
+   
 
 
     //TODO see all comments on a specified work

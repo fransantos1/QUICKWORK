@@ -8,5 +8,5 @@ public interface UsrJobsView {
     Integer getTip();
     LocalDate getstarting();
     LocalDate getfinished();
-    int getworkstate_id(); 
+    int getworktype_id(); 
 }

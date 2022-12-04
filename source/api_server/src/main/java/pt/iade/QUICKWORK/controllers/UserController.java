@@ -37,6 +37,8 @@ public class UserController {
         Logger.info("Sending all units");
         return userRepository.findAll();
     }
+
+    
     //add user
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -61,6 +63,9 @@ public class UserController {
         Logger.info("User with id: "+ usrid + " given");
         return userRepository.findById(usrid);
     }
+
+    // sends the owner of a specific job
+
     @GetMapping(path = "/owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<User> getowner(@PathVariable("id") int id) throws NotFoundException{
         Logger.info(id+ "");

@@ -14,7 +14,7 @@ import pt.iade.QUICKWORK.models.views.getownerview;
 public interface UserRepository extends CrudRepository<User,Integer> {
 
     // *FIND JOBS HISTORY
-    @Query(value = "select work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as starting, work_finished as finished, work_wt_id as workstate_id "+
+    @Query(value = "select work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as starting, work_finished as finished, work_wt_id as worktype_id "+
                     "from usr "+
                     "inner join usrwork on usr_id = uw_usr_id "+
                     "inner join work on uw_work_id = work_id " + "Where usr_id=:id ", nativeQuery = true) 
