@@ -43,7 +43,7 @@ create table usrwork (
 
     uw_usr_id INT not null,
     uw_work_id INT not null,
-    uw_usrcreate boolean not null
+    uw_usrcreate boolean not null,
 
     primary key (uw_id)
 
@@ -62,7 +62,7 @@ create table work (
     work_tip DECIMAL(19,4),
     work_starting date,
     work_finished date,
-    price DECIMAL(19,4)
+    work_price DECIMAL(19,4),
     
     work_wt_id INT not null,
     primary key (work_id)
