@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import pt.iade.QUICKWORK.models.Response;
 import pt.iade.QUICKWORK.models.User;
 import pt.iade.QUICKWORK.models.repositories.UserRepository;
 import pt.iade.QUICKWORK.models.views.UsrJobsView;
 import pt.iade.QUICKWORK.models.views.getownerview;
-
+import pt.iade.QUICKWORK.models.exceptions.NotFoundException;
 @RestController
 @RequestMapping(path ="/api/users")
 public class UserController {
@@ -37,8 +37,6 @@ public class UserController {
         Logger.info("Sending all units");
         return userRepository.findAll();
     }
-
-    
     //add user
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -46,15 +44,21 @@ public class UserController {
         Logger.info("User named: "+usr.getName()+" saved");
         return userRepository.save(usr);
     }   
-    //remove a user 
-    @DeleteMapping(path="/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("usrid") int usrid){
-        User user;
-        user = userRepository.findById(usrid).get();
-        String name = user.getName();
 
-        Logger.info("Delete user "+name);
-        userRepository.deleteById(usrid);
+
+    //remove a user 
+    //TODO verify the foreign key constrains, and either delete comments/reports/jobs or create a user to do that 
+    
+    @DeleteMapping(path="/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response delete(@PathVariable("usrid") int usrid) throws NotFoundException{
+        Optional<User> user1 = userRepository.findById(usrid);
+        if(!user1.isEmpty()){
+            User user = user1.get();
+            String name = user.getName();
+            Logger.info("Delete user "+name);
+            userRepository.deleteById(usrid);
+            return new Response(usrid+"was deleted", null);
+        }else throw new NotFoundException(""+usrid, "User", "User");
     }
 
     //get specific user info 
@@ -71,19 +75,13 @@ public class UserController {
         Logger.info(id+ "");
         Optional<getownerview> _ownerid = userRepository.getownerid1(id);  
         if(_ownerid.isEmpty()){
-            throw new NotFoundException();
+            throw new NotFoundException(""+id, "user", "user");
         }else{
             getownerview _owner = _ownerid.get();
              return userRepository.findById(_owner.getownerid());
         }
 
     } 
-
-
-
-
-
-
     //get a users history of work
       @GetMapping(path = "/jobs/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
       public Iterable<UsrJobsView> getJobs(@PathVariable("usrid") int usrid) {

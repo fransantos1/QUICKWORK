@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.iade.QUICKWORK.models.repositories.WorkRepository;
 import pt.iade.QUICKWORK.models.views.Workmapview;
-import pt.iade.QUICKWORK.models.views.gettypeView;
+import pt.iade.QUICKWORK.models.exceptions.NotFoundException;
 
 import java.util.Optional;
 
@@ -25,15 +25,9 @@ public class WorkController {
     @Autowired
     private WorkRepository workrepository;
 
-
-
-
-
-
     //get all available jobs (only needs loc, type and id) 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Workmapview> getworks(){
-
         Logger.info("sending all jobs");
 
         return workrepository.workmapshow();
@@ -42,33 +36,19 @@ public class WorkController {
 
     //get specific work
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Work> getwork(@PathVariable("id") int id) {
-        Logger.info("Sending "+ id);
-        return workrepository.findById(id);
+    public Optional<Work> getwork(@PathVariable("id") int id)throws NotFoundException{
+        Optional<Work> _work = workrepository.findById(id);
+        if( !_work.isEmpty()) {
+            Logger.info("Sending "+ id);
+            return _work;
+        }else throw new NotFoundException(""+id, "id", "Work" ); 
     }  
-
-
-    //get specific type
-    @GetMapping(path = "/type/{id:[2-5]}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public gettypeView gettype(@PathVariable("id") int id){
-
-
-        return workrepository.gettype(id);
-    }
     //modify work state
-    //! THIS IS WRONG I'M MODIFYING WORK TYPE NEED TO CHANGE THIS ASAP
-    //! THIS DOES NOT WORK DO NOT USE IT
-    /*
-    @PostMapping(path = "/setstate/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setworkstate(@PathVariable("id") Integer id ,@RequestBody Integer state){
-        if(workrepository.existsById(id) != false){
-            workrepository.setstate(state, id);
-            Logger.info("work "+ id + " set too: "+ state );//! need to send the correct work state
-        }else {Logger.error("work doesnt exist");}
+    
 
-
-    }
-    */
+    //@GetMapping(path ="/setstate/{id}")
+    
+    
 
     //TODO GET WORK STATE
     // * /state/{id} 

@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import pt.iade.QUICKWORK.models.Work;
 import pt.iade.QUICKWORK.models.views.Workmapview;
-import pt.iade.QUICKWORK.models.views.gettypeView;
 
 
 public interface WorkRepository extends CrudRepository<Work,Integer> {
@@ -24,10 +23,7 @@ public interface WorkRepository extends CrudRepository<Work,Integer> {
         @Transactional@Modifying @Query(value = "Update work set work_wt_id = :state where work_id = :id ;",  nativeQuery = true)
         int setstate(@Param("state") Integer status,@Param("id") Integer id);
 
-        //find type by id
-        
-        @Query(value = "Select wt_name as name from worktype where wt_id = :id", nativeQuery = true)
-        gettypeView gettype(@Param("id") int id);
+  
 
         // get usr owner id
 

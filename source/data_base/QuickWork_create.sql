@@ -100,7 +100,7 @@ create table rating (
     rating_rat smallINT not null check (rating_rat between 1 and 5),
 
     rating_usr1_id INT not null, -- rating usr Id
-    rating_usr2_id INT not null, -- Rated usr Id
+    rating_uw_id INT not null, --rated usrwork Id
 
     primary key (rating_id)
 );
@@ -127,7 +127,7 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 alter table rating 
 add constraINT rt_fk_usr2
-foreign key (rating_usr2_id) references usr(usr_id)  
+foreign key (rating_uw_id) references usrwork(uw_id)  
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
