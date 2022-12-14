@@ -42,7 +42,7 @@ se quer integrar.
 
 ## 5. Guiões
 
-###Utilização do nosso objeto “Core” na aplicação:
+### Utilização do nosso objeto “Core” na aplicação:
 
 O objeto core da nossa aplicação seria a utilização do mapa, que seria onde o
 utilizador poderá visualizar todos os trabalhos disponíveis e escolher qual pretende
