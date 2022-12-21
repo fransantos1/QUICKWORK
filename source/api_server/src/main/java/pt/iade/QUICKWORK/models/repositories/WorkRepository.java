@@ -14,15 +14,21 @@ import pt.iade.QUICKWORK.models.views.Workmapview;
 public interface WorkRepository extends CrudRepository<Work,Integer> {
 
         //show jobs on the map
-        @Query(value =  "select work_id as id, work_loc[0] as lat, work_loc[1] as lon, wt_name as type from work inner join worktype on work_wt_id = wt_id where work_starting is null " , nativeQuery = true) 
+        @Query(value =  " select work_id as id, work_loc[0] as lat, work_loc[1] as lon, wt_name as type"+
+                        " from work"+
+                        " inner join worktype on wt_id = work_wt_id"+
+                        " inner join work_state on work_id = ws_work_id"+
+                        " inner join _state on state_id = ws_state_id"+
+                        " where state_name = 'Em espera'" , nativeQuery = true) 
             Iterable<Workmapview> workmapshow();
-            //WORK STARTING IS NULL BECAUSE IF THE WORK HASNT STARTED IS = TO SEEING IF THE WORK IS AVAILABLE VALID FOR PROTOTYPE
-            //! WORKS FOR THE PROTOTYPE BUT I NEED TO CHANGE THIS BECUASE THE WORK NOT HAVING STARTED COULD ALSO MEAN THAT IT WAS CANCELED
+        //get work state
+        @Query(value =  "select state_name"+
+                        " from _state"+
+                        " inner join work_state on state_id = ws_state_id"+
+                        " inner join work on work_id = ws_work_id"+
+                        " where work_id = :id", nativeQuery = true)
+        String state(@Param("id") int work_id);
         
-        //modify work state
-        @Transactional@Modifying @Query(value = "Update work set work_wt_id = :state where work_id = :id ;",  nativeQuery = true)
-        int setstate(@Param("state") Integer status,@Param("id") Integer id);
-
   
 
         // get usr owner id

@@ -30,7 +30,6 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-
     // for debug porpuses, show all users
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<User> getUsers() {
@@ -39,16 +38,15 @@ public class UserController {
     }
     //add user
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-
     public User saveUsr(@RequestBody User usr) {
         Logger.info("User named: "+usr.getName()+" saved");
         return userRepository.save(usr);
     }   
 
 
+
     //remove a user 
     //TODO verify the foreign key constrains, and either delete comments/reports/jobs or create a user to do that 
-    
     @DeleteMapping(path="/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response delete(@PathVariable("usrid") int usrid) throws NotFoundException{
         Optional<User> user1 = userRepository.findById(usrid);
@@ -58,14 +56,17 @@ public class UserController {
             Logger.info("Delete user "+name);
             userRepository.deleteById(usrid);
             return new Response(usrid+"was deleted", null);
-        }else throw new NotFoundException(""+usrid, "User", "User");
+        }else throw new NotFoundException(""+usrid, "User", "id");
     }
 
     //get specific user info 
     @GetMapping(path = "/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<User> getUser(@PathVariable("usrid") int usrid){
-        Logger.info("User with id: "+ usrid + " given");
-        return userRepository.findById(usrid);
+    public Optional<User> getUser(@PathVariable("usrid") int usrid) throws NotFoundException{
+        Optional<User> _user = userRepository.findById(usrid);
+        if(_user.isPresent()){
+            Logger.info("sending User: "+usrid);
+            return _user;
+        }else throw new NotFoundException(""+usrid, "user", "id");
     }
 
     // sends the owner of a specific job
@@ -75,7 +76,7 @@ public class UserController {
         Logger.info(id+ "");
         Optional<getownerview> _ownerid = userRepository.getownerid1(id);  
         if(_ownerid.isEmpty()){
-            throw new NotFoundException(""+id, "user", "user");
+            throw new NotFoundException(""+id, "user", "id");
         }else{
             getownerview _owner = _ownerid.get();
              return userRepository.findById(_owner.getownerid());
@@ -84,14 +85,14 @@ public class UserController {
     } 
     //get a users history of work
       @GetMapping(path = "/jobs/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
-      public Iterable<UsrJobsView> getJobs(@PathVariable("usrid") int usrid) {
-          Logger.info("Sending all units");
-          return userRepository.findusrjobs(usrid);
+      public Iterable<UsrJobsView> getJobs(@PathVariable("usrid") int usrid) throws NotFoundException{
+            Optional<User> _user = userRepository.findById(usrid);
+            if(!_user.isEmpty()){
+            Iterable<UsrJobsView> jobs = userRepository.findusrjobs(usrid);
+            Logger.info("Sending All users "+ usrid+" jobs");
+            return jobs;
+            }else throw new NotFoundException(""+usrid, "User", "Id");
       }    
-
-      //user comment on a userwork
-      
-
 
       //set user location*/-+
 

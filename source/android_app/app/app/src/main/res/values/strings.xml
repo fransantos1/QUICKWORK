@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QUICKWORK</string>
+    <string name="title_activity_jobsmap">jobsmap</string>
 </resources>
