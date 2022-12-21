@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void Populateworklistview(){
         if(arrayWorks != null) {
-
+///// change
             ListView mylist = (ListView) findViewById(R.id.WorkListView);
             ArrayList<String> myItems = new ArrayList<>();
             for (int i = 0; i < arrayWorks.length(); i++) {
