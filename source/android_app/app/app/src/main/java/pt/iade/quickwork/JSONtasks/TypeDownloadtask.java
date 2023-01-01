@@ -1,7 +1,6 @@
-package pt.iade.quickwork.downloadTask;
+package pt.iade.quickwork.JSONtasks;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

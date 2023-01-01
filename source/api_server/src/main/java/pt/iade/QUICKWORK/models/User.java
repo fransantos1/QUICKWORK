@@ -25,6 +25,10 @@ public class User {
 
 
     public User() {}
+    
+    public void setJobnumber(Integer jobnumber) {
+        this.jobnumber = jobnumber;
+    }
 
     public int getId(){
         return id;

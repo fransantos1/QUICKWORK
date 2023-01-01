@@ -21,7 +21,7 @@ public class WorkTypeController {
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<WorkType> getTypes() {
-        Logger.info("Sending all units");
+        Logger.info("Sending all Types");
         return worktyperepository.findAll();
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import pt.iade.QUICKWORK.models.Response;
 import pt.iade.QUICKWORK.models.User;
+import pt.iade.QUICKWORK.models.usrworkinfo;
 import pt.iade.QUICKWORK.models.repositories.UserRepository;
 import pt.iade.QUICKWORK.models.views.UsrJobsView;
 import pt.iade.QUICKWORK.models.views.getownerview;
@@ -33,16 +34,18 @@ public class UserController {
     // for debug porpuses, show all users
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<User> getUsers() {
-        Logger.info("Sending all units");
+        Logger.info("Sending all usrs");
         return userRepository.findAll();
     }
     //add user
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public User saveUsr(@RequestBody User usr) {
-        Logger.info("User named: "+usr.getName()+" saved");
-        return userRepository.save(usr);
-    }   
+        User _user = usr;
+        _user.setJobnumber(0);
 
+        Logger.info("User named: "+usr.getName()+" saved");
+        return userRepository.save(_user);
+    }   
 
 
     //remove a user 
@@ -70,7 +73,6 @@ public class UserController {
     }
 
     // sends the owner of a specific job
-
     @GetMapping(path = "/owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<User> getowner(@PathVariable("id") int id) throws NotFoundException{
         Logger.info(id+ "");
@@ -83,6 +85,15 @@ public class UserController {
         }
 
     } 
+    //is user occupied
+    @GetMapping(path ="/{usrid}/occupied", produces = MediaType.APPLICATION_JSON_VALUE)
+    public usrworkinfo getBoolean(@PathVariable("usrid") int usrid){
+        usrworkinfo response = null;
+        if( userRepository.isUserOccupied(usrid)){
+            response = new usrworkinfo(true, userRepository.isUserowner(usrid));
+        }else{ response = new usrworkinfo(false);}
+        return response;
+    }
     //get a users history of work
       @GetMapping(path = "/jobs/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
       public Iterable<UsrJobsView> getJobs(@PathVariable("usrid") int usrid) throws NotFoundException{
@@ -96,7 +107,7 @@ public class UserController {
 
       //set user location*/-+
 
-
+    
     
 
 

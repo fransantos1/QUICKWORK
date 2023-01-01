@@ -3,20 +3,15 @@ package pt.iade.QUICKWORK.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import pt.iade.QUICKWORK.models.Comment;
-import pt.iade.QUICKWORK.models.Work;
-import pt.iade.QUICKWORK.models.exceptions.NotFoundException;
 import pt.iade.QUICKWORK.models.exceptions.NotavailableException;
 import pt.iade.QUICKWORK.models.repositories.CommentRepository;
 import pt.iade.QUICKWORK.models.repositories.WorkRepository;

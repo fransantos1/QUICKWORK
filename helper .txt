@@ -1,0 +1,66 @@
+criar um trabalho - api
+criar lista de um user para escolher- android 
+
+
+POR FAZER ---------------------------------------------------
+
+
+--------------activity
+-está num trabalho como trabalhador:
+	- mostrar mapa com a localização do trabalho
+	
+	- mostrar o nome do dono, e de outros trabalhadores se for necessario
+	- quanto é pago á hora 
+
+
+
+
+-está num trabalho como criador:
+	- mostrar estado do trabalho
+	dependendo do estado:
+	- mostrar lista pequena com nome de todos os trabalhadores
+	- mostrar num mapa aonde é q estao os trabalhadores 
+	- butão para acabar o trabalho - cancelar
+
+-não está em nenhum trabalho:
+	mudar para a map activity
+
+
+
+
+
+------------para criar trabalho
+- informaçao do trabalho
+- id do criador
+
+- inserir trabalho
+- inserir work_state e mter disponivel
+- inserir o user no usrwork e meter como true o "criador"
+
+
+	
+--------------MODIFICAR TRABALHO
+-na api criar mapping que recebe o id do trabalho e o id do estado
+
+--------------ACEITAR TRABALHO
+- adicionar um botao no jobsmap_activity para aceitar o trabalho
+- adicionar jalena de "tem a certeza que quer aceitar o trabalho?"
+- quando o user aceita. mandar a localização desse user para a BD
+- o outro dono do trabalho recebe informaçao e sabe a localização do trabalhador.
+
+--------------NO MAPA
+- adicionar icons costumizados para cada tipo de trabalho diferente
+
+
+
+
+TERMINADO -------------------------------------------------------
+
+
+-------------para criar a lista
+
+-receber lista de todos os users
+-por numa lista
+-ao clicar verificar se o user tem um trabalho ativo como owner
+	sim?- mudar para uma activity onde so tem a informaçao do trabalho especifico
+	nao?- abrir o mapa

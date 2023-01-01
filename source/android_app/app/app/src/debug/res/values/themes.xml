@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.QUICKWORK.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.QUICKWORK.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.QUICKWORK.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

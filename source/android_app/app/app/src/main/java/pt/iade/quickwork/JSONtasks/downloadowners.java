@@ -1,21 +1,20 @@
-package pt.iade.quickwork.downloadTask;
+package pt.iade.quickwork.JSONtasks;
 
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
 
-public class JSONarraydownloadtask extends AsyncTask<String, Void, JSONArray> {
+public class downloadowners extends AsyncTask<String, Void, JSONArray> {
+
     @Override
-
     protected JSONArray doInBackground(String... urls) {
-
-
-
 
         String result = "";
         URL url;
@@ -23,7 +22,6 @@ public class JSONarraydownloadtask extends AsyncTask<String, Void, JSONArray> {
 
         try{
             url = new URL(urls[0]);
-
             urlConnection = (HttpURLConnection) url.openConnection();
 
             InputStream in = urlConnection.getInputStream();
@@ -37,21 +35,16 @@ public class JSONarraydownloadtask extends AsyncTask<String, Void, JSONArray> {
                 data = reader.read();
             }
 
-            JSONArray jsonArray = new JSONArray(result);
-            /*
-            ArrayList<String> myItems = new ArrayList<String>();
-            for(int i=0; i< jsonArray.length(); i++){
-                myItems.add(jsonArray.getString(i));
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray arr = new JSONArray();
+            Iterator x = jsonObject.keys();
+            while(x.hasNext()){
+                String key = (String) x.next();
+                arr.put(jsonObject.get(key));
             }
-            int size = myItems.size();
-            String[] stringArray = myItems.toArray(new String[size]);
-            StringBuffer sb = new StringBuffer();
-            for(int i = 0; i < stringArray.length; i++) {
-                sb.append(stringArray[i]);
-            }
-            String str = sb.toString();
-            Log.i("JOBsS", str);*/
-            return jsonArray;
+
+
+            return arr;
 
         }catch (Exception e){
             e.printStackTrace();
@@ -62,7 +55,6 @@ public class JSONarraydownloadtask extends AsyncTask<String, Void, JSONArray> {
 
     @Override
     protected void onPostExecute(JSONArray jsonArray) {
-
         super.onPostExecute(jsonArray);
     }
 }

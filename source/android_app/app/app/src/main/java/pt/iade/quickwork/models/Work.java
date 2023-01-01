@@ -2,7 +2,7 @@ package pt.iade.quickwork.models;
 
 import java.time.LocalDate;
 
-public class work {
+public class Work {
     private int id;
     private Double pricehr;
     private Double tip; //allways null if the job hasnt started
@@ -12,13 +12,19 @@ public class work {
     private double lat;
     private double lon;
 
-    public work(int id, Double pricehr, Double tip, LocalDate started_time, LocalDate finished_time, String state, double lat, double lon) {
+    public Work(int id, Double pricehr, Double tip, LocalDate started_time, LocalDate finished_time, String type, double lat, double lon) {
         this.id = id;
         this.pricehr = pricehr;
         this.tip = tip;
         this.started_time = started_time;
         this.finished_time = finished_time;
-        this.type = state;
+        this.type = type;
+        this.lat = lat;
+        this.lon = lon;
+    }
+    public Work(Double pricehr, String type, double lat, double lon) {
+        this.pricehr = pricehr;
+        this.type = type;
         this.lat = lat;
         this.lon = lon;
     }

@@ -1,5 +1,7 @@
 package pt.iade.QUICKWORK.models.repositories;
 
+import java.util.ArrayList;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,8 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import pt.iade.QUICKWORK.models.User;
 import pt.iade.QUICKWORK.models.Work;
 import pt.iade.QUICKWORK.models.views.Workmapview;
+import pt.iade.QUICKWORK.models.views.customusrview;
+import pt.iade.QUICKWORK.models.views.workview;
 
 
 public interface WorkRepository extends CrudRepository<Work,Integer> {
@@ -28,13 +33,55 @@ public interface WorkRepository extends CrudRepository<Work,Integer> {
                         " inner join work on work_id = ws_work_id"+
                         " where work_id = :id", nativeQuery = true)
         String state(@Param("id") int work_id);
+        //get a work type by the id
+        @Query(value =  "select work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as started_time, work_finished as finished_time, work_loc[0] as lat, work_loc[1] as lon, wt_name as type"+
+                        " from work"+
+                        " inner join worktype on wt_id = work_wt_id"+
+                        " where work_id = :id", nativeQuery = true)
+        workview getworkandtype(@Param("id") int work_id);
         
-  
+        //get the work somebody is working on 
+        @Query(value = "select work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as started_time, work_finished as finished_time, work_loc[0] as lat, work_loc[1] as lon, wt_name as type"+
+                        " from usrwork"+
+                        " inner join work on work_id = uw_work_id"+
+                        " inner join work_state on ws_work_id = work_id"+
+                        " inner join worktype on wt_id = work_wt_id" +
+                        " where ws_state_id =:state_id and uw_usr_id =:usr_id", nativeQuery = true)
+        workview getworkfromusr(@Param("usr_id") int usrid, @Param("state_id") int stateid);
+        
+        
+        //save work 
+        //-----------------------------------------------
 
-        // get usr owner id
+        //add work on table
+        @Transactional
+        @Modifying
+        @Query(value = "Insert into work (work_loc,  work_pricehr, work_tip, work_starting, work_finished, work_price, work_wt_id) values (POINT(:lat, :lon), :pricehr, null, null, null, null, :worktype_id);"
+                        , nativeQuery = true)
+        void savework(@Param("lat") double lat, @Param("lon") double lon, @Param("pricehr") double pricehr, @Param("worktype_id") int wt_id);
+
+        //getting work with the correct id
+        Work findByLatAndLon(double lat, double lon);
+     
+        //adding all dependencies to a work 
+        @Transactional
+        @Modifying
+        @Query (value = "insert into usrwork (uw_usr_id, uw_work_id, uw_usrcreate) values (:usrid ,:workid, true);"+
+                        " insert into work_state (ws_work_id, ws_state_id) values (:workid, 1);",nativeQuery = true)
+        void AddDependencies(@Param("workid") int work_id,@Param("usrid") int usr_id);
 
 
+        //-------------------------------------------------------------------------------------
 
-        //Iterable<Work> findbylat(Double lat);
+        //List of all users in a work except the owner
+
+        @Query (value = "select usr_id as id, usr_name as name, usr_email as email, usr_njobs as jobnumber, usr_avg_rating as rating from usr inner join usrwork on uw_usr_id = usr_id  where uw_work_id = :workid and uw_usrcreate is not true",nativeQuery = true)
+        ArrayList<customusrview> getusers(@Param("workid") int workid );
+
+/*" select usr_id, usr_name, usr_email, usr_password, usr_njobs, usr_avg_rating, usr_loc"+
+                        " from usr"+
+                        " inner join usrwork on uw_usr_id = usr_id"+
+                        " where uw_work_id = :workid" */
+        
 
 }

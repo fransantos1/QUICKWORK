@@ -28,6 +28,27 @@ public interface UserRepository extends CrudRepository<User,Integer> {
 
         @Query(value = "select usr_id as ownerid from work inner join usrwork on work_id = uw_work_id inner join usr on usr_id = uw_usr_id where uw_usrcreate = true and work_id =:workid", nativeQuery = true)
         Optional<getownerview> getownerid1(@Param("workid") int workid);
+
+                //Verify if a user has any active jobs 
+        //-----------------------------------------------------------------
+
+        //verifying if it has any available jobs
+        
+        @Query(value =  "select exists("+
+                        " select * "+
+                        " from usr "+
+                        " inner join usrwork on uw_usr_id = usr_id "+
+                        " inner join work on uw_work_id = work_id "+
+                        " inner join work_state on ws_work_id = work_id "+
+                        " where ws_state_id != 3 and ws_state_id != 4 and usr_id = :id )", nativeQuery = true)
+        Boolean isUserOccupied(@Param("id") int id);
+
+        //verifying if he is the owner of the jobs
+        @Query(value =  " select uw_usrcreate"+
+                        " from usrwork" +
+                        " where uw_usr_id = :id", nativeQuery = true)
+        Boolean isUserowner(@Param("id") int id);
+        //-------------------------------------------------------------------------------------
         
 
 

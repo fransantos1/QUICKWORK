@@ -1,15 +1,15 @@
 package pt.iade.quickwork;
 
-import pt.iade.quickwork.downloadTask.JSONarraydownloadtask;
-import pt.iade.quickwork.downloadTask.JSONobjdownloadtask;
-import pt.iade.quickwork.downloadTask.TypeDownloadtask;
-import pt.iade.quickwork.downloadTask.downloadowners;
+import pt.iade.quickwork.JSONtasks.JSONobjdownloadtask;
+import pt.iade.quickwork.JSONtasks.TypeDownloadtask;
+import pt.iade.quickwork.JSONtasks.downloadowners;
 import pt.iade.quickwork.models.User;
-import pt.iade.quickwork.models.work;
+import pt.iade.quickwork.models.Work;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,15 +19,13 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
 
 public class Workview extends AppCompatActivity {
 
     JSONArray getowner = null;
-    JSONArray selWork = null;
-    JSONArray worktype = null;
+    JSONObject selWork = null;
     private String tempid;
 
     @Override
@@ -39,7 +37,7 @@ public class Workview extends AppCompatActivity {
         JSONobjdownloadtask task = new JSONobjdownloadtask();
         TypeDownloadtask task1 = new TypeDownloadtask();
         int id = Integer.parseInt(getIntent().getStringExtra("workid"));
-
+        Log.i("teste", "got here");
 
         // get work information
         try {
@@ -48,25 +46,12 @@ public class Workview extends AppCompatActivity {
             e.printStackTrace();
             selWork = null;
         }
-        //get worktype information
-        try {
-            String worktypeid = selWork.getString(5);
-            try {
-                worktype = task1.execute(Constants.api_server +"work/type/"+ worktypeid).get();
-            }catch (ExecutionException e) {
-                e.printStackTrace();
-                selWork = null;
-            }
-
-        }catch ( Exception e){
-            e.printStackTrace();
-        }
-
         //get owner
         try {
-            String workid = selWork.getString(0);
+            String workid = selWork.getString("id");
             try {
                 getowner = task3.execute(Constants.api_server +"users/owner/"+ workid).get();
+                Log.i("user", getowner.toString());
             }catch (ExecutionException e) {
                 e.printStackTrace();
                 selWork = null;
@@ -77,8 +62,7 @@ public class Workview extends AppCompatActivity {
         }
 
 
-        //change to profile
-        Log.i("Worktypetest", worktype.toString());
+
         Log.i("Worktteste", selWork.toString());
         populatework();
 
@@ -94,6 +78,9 @@ public class Workview extends AppCompatActivity {
     }
 
 
+
+
+    //change to profile
     private void switchtoprofileview() {
         User user = getowner();
         Intent switchActivityIntent = new Intent(this, ProfileActivity1.class);
@@ -104,14 +91,14 @@ public class Workview extends AppCompatActivity {
 
 
     private void populatework(){
-        work work = getWork();
+        Work work = getWork();
         User user = getowner();
 
         TextView type = (TextView) (findViewById(R.id.textviewtype));
         TextView pricehr = (TextView) (findViewById(R.id.textviewpreco));
         TextView loc = (TextView) (findViewById(R.id.textviewloc));
         TextView owner = (TextView)(findViewById(R.id.textviewOwner));
-       String name = user.getName();
+        String name = user.getName();
         String typestr = work.getType();
         String pricehrstr = work.getPricehr()+ "";
         String locstr = work.getLat()+" "+ work.getLon()+"";
@@ -132,41 +119,31 @@ public class Workview extends AppCompatActivity {
                 int jobn = getowner.getInt(3);
                 int rating = getowner.getInt(4);
                 user = new User(id, nome, email, jobn, rating);
-
+                Log.i("user", nome);
             }catch (Exception e) {
                 e.printStackTrace();
             }
 
 
         }
-
-
-
         return user;
     }
 
+    private Work getWork() {
 
-
-    private work getWork() {
-
-        work work = null;
+        Work work = null;
         if (selWork != null) {
             try {
-                Log.i ("s", selWork.getString(1));
-                Log.i ("s", selWork.getString(6));
-                Log.i ("s", selWork.getString(7));
-
-                int id = selWork.getInt(0);
-                Double pricehr = selWork.getDouble(1);
-                Double tip = null;
-                LocalDate started_time = null;
-                LocalDate finished_time = null;
-                String type = worktype.getString(0);
-                double lat = selWork.getDouble(6);
-                double lon = selWork.getDouble(7);
-                work = new work(id, pricehr, null, null, null, type, lat, lon);
-
-
+                /*
+                int id = selWork.getInt("id");
+                Double pricehr = selWork.getDouble("pricehr");
+                String type = selWork.getString("type");
+                double lat = selWork.getDouble("lat");
+                double lon = selWork.getDouble("lon");
+                work = new Work(id, pricehr, null, null, null, type, lat, lon);*/
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    work = utilities.populate_work(selWork);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
