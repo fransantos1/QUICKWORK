@@ -34,13 +34,13 @@ public interface UserRepository extends CrudRepository<User,Integer> {
 
         //verifying if it has any available jobs
         
-        @Query(value =  "select exists("+
-                        " select * "+
-                        " from usr "+
-                        " inner join usrwork on uw_usr_id = usr_id "+
-                        " inner join work on uw_work_id = work_id "+
-                        " inner join work_state on ws_work_id = work_id "+
-                        " where ws_state_id != 3 and ws_state_id != 4 and usr_id = :id )", nativeQuery = true)
+        @Query(value =  "select exists (select state"+
+                        " from (select state_id as state "+
+                        " from work_state "+
+                        " inner join _state on ws_state_id = state_id inner join work on ws_work_id = work_id inner join usrwork on uw_work_id = work_id"+
+                        " where uw_usr_id = :id "+
+                        " Order by ws_id DESC limit 1) subquerie"+
+                        " where state != 4 and state != 3)", nativeQuery = true)
         Boolean isUserOccupied(@Param("id") int id);
 
         //verifying if he is the owner of the jobs
@@ -53,3 +53,13 @@ public interface UserRepository extends CrudRepository<User,Integer> {
 
 
 }   
+
+
+
+/*select ws_state_id ,work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as started_time, work_finished as finished_time, work_loc[0] as lat, work_loc[1] as lon, wt_name as type
+from work
+inner join usrwork on uw_work_id = work_id
+inner join work_state on ws_work_id = work_id
+inner join worktype on wt_id = work_wt_id
+where uw_usr_id = 14 and ws_state_id != 4 and ws_state_id != 3 and uw_usrcreate is true
+limit 1 */

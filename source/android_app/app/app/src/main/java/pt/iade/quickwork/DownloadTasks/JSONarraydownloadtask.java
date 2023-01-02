@@ -1,4 +1,4 @@
-package pt.iade.quickwork.JSONtasks;
+package pt.iade.quickwork.DownloadTasks;
 
 import android.os.AsyncTask;
 
@@ -65,4 +65,7 @@ public class JSONarraydownloadtask extends AsyncTask<String, Void, JSONArray> {
 
         super.onPostExecute(jsonArray);
     }
+
+
+
 }

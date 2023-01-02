@@ -28,8 +28,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import pt.iade.quickwork.JSONtasks.JSONarraydownloadtask;
-import pt.iade.quickwork.JSONtasks.JSONobjdownloadtask;
+import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
+import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
 

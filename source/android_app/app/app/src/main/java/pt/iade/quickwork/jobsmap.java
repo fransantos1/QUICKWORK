@@ -13,10 +13,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -27,11 +29,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import pt.iade.quickwork.databinding.ActivityJobsmapBinding;
-import pt.iade.quickwork.JSONtasks.JSONarraydownloadtask;
+import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.models.User;
 
 public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
@@ -42,6 +43,7 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
     LocationManager locationManager;
     LocationListener locationListener;
     JSONArray arrayWorks = null;
+    JSONArray arrayWorkstemp=null;
     User LoggedUser;
     Button create_job;
 
@@ -73,6 +75,7 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
         try {
             Log.i("JOBS", "started ");
             arrayWorks = task.execute(Constants.api_server + "work").get();
+            task.cancel(true);
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -84,7 +87,6 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
                 switch_CreateJob();
             }
         });
-
 
     }
     private void switch_CreateJob(){
@@ -105,16 +107,32 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        locationListener = new LocationListener(){
+            @Override
+        public void onLocationChanged(Location location) {
+
+        }
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }};
+
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         mMap = googleMap;
         Marker workmarker;
         Location usrLoc = null;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mMap.setMyLocationEnabled(true);
+
         if(arrayWorks != null) {
-            ArrayList<String> myItems = new ArrayList<>();
             for (int i = 0; i < arrayWorks.length();i++){
                 try {
                     JSONObject jsonPart = arrayWorks.getJSONObject(i);
@@ -128,6 +146,7 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     public void onInfoWindowClick(Marker marker) {
                         String workid = (String) marker.getTag();
+                        Log.i("workid", workid);
 
                         switchtoworkview(workid);
 
@@ -135,6 +154,65 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
                 });
             }
         }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+        }else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if(lastKnownLocation != null) {
+                LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10));
+            }
+
+        }
+        mMap.setMyLocationEnabled(true);
+        Handler h = new Handler();
+        int delay = 10 * 1000;
+        h.postDelayed(new Runnable(){
+            public void run(){
+                JSONarraydownloadtask tasktemp = new JSONarraydownloadtask();
+
+                try {
+                    arrayWorkstemp = tasktemp.execute(Constants.api_server + "work").get();
+                    tasktemp.cancel(true);
+                    Log.i("Jsonarray", arrayWorkstemp.toString()+"  "+arrayWorks.toString());
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(!arrayWorkstemp.toString().equals(arrayWorks.toString())){
+                    Log.i("JsonArray", "are not equal");
+                    mMap.clear();
+                    Marker workmarker;
+                    arrayWorks= arrayWorkstemp;
+                    for (int i = 0; i < arrayWorks.length();i++){
+                        try {
+                            JSONObject jsonPart = arrayWorks.getJSONObject(i);
+                            LatLng work = new LatLng(jsonPart.getDouble("lat"), jsonPart.getDouble("lon"));
+                            workmarker = mMap.addMarker(new MarkerOptions()
+                                    .position(work)
+                                    .title(jsonPart.getString("type"))
+                            );
+                            workmarker.setTag(jsonPart.getString("id"));
+                        }catch (Exception e){e.printStackTrace();}
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            public void onInfoWindowClick(Marker marker) {
+                                String workid = (String) marker.getTag();
+                                Log.i("workid", workid);
+                                switchtoworkview(workid);
+
+                            }
+                        });
+                    }
+
+                }
+                tasktemp = null;
+                h.postDelayed(this, delay);
+            }
+        }, delay);
+
+
+
 
 
     }

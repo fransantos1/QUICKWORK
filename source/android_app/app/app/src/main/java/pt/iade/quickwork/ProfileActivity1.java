@@ -37,12 +37,18 @@ public class ProfileActivity1 extends AppCompatActivity {
         String usrnome = user.getName();
         String usrmail = user.getEmail();
         String usrntrabalho = Integer.toString(user.getJobnumber());
-        String usrrating = Integer.toString(user.getRating());
+        if (user.getRating() != null) {
+            String usrrating = Integer.toString(user.getRating());
+            rating.setText(usrrating);
+        }else {
+            rating.setText("User not rated");
+        }
+
 
         Nome.setText(usrnome);
         email.setText(usrmail);
         ntrabalhos.setText(usrntrabalho);
-        rating.setText(usrrating);
+
 
 
     }

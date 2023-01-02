@@ -1,4 +1,4 @@
-package pt.iade.quickwork.JSONtasks;
+package pt.iade.quickwork.DownloadTasks;
 
 import android.os.AsyncTask;
 
@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
 
-public class downloadowners extends AsyncTask<String, Void, JSONArray> {
+public class TypeDownloadtask extends AsyncTask<String, Void, JSONArray> {
 
     @Override
     protected JSONArray doInBackground(String... urls) {

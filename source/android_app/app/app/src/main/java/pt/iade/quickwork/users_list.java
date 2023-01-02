@@ -18,8 +18,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import pt.iade.quickwork.JSONtasks.JSONarraydownloadtask;
-import pt.iade.quickwork.JSONtasks.JSONobjdownloadtask;
+import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
+import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
 import pt.iade.quickwork.models.User;
 
 public class users_list extends AppCompatActivity {
@@ -118,6 +118,12 @@ public class users_list extends AppCompatActivity {
         if(isoccupied){
             if(isowner){
                 //change to owners activity
+                Intent switchActivityIntent = new Intent(this, Job_creator.class);
+                switchActivityIntent.putExtra("User", user);
+                startActivity(switchActivityIntent);
+                Log.i("user", "is occuppied");
+
+
 
                 Log.i("user", "is occuppied and has work");
             }else {

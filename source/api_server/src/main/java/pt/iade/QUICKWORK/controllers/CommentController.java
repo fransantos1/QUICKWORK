@@ -37,7 +37,7 @@ public class CommentController {
             Usrworkview getwork = commentRepository.getworkuser(uw_id);
             int work_id = getwork.getwork_id();
             //verify that work is finished
-            String work_State = workRepository.state(work_id);
+            String work_State = workRepository.getState(work_id);
             if(work_State == "Completo"){
               Logger.info(""+ _comment.getComment()+" posted");
               commentRepository.save(_comment);

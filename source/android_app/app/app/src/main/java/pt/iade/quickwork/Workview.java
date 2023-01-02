@@ -1,8 +1,7 @@
 package pt.iade.quickwork;
 
-import pt.iade.quickwork.JSONtasks.JSONobjdownloadtask;
-import pt.iade.quickwork.JSONtasks.TypeDownloadtask;
-import pt.iade.quickwork.JSONtasks.downloadowners;
+import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
+import pt.iade.quickwork.DownloadTasks.TypeDownloadtask;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
 
@@ -16,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
@@ -24,16 +22,17 @@ import java.util.concurrent.ExecutionException;
 
 public class Workview extends AppCompatActivity {
 
-    JSONArray getowner = null;
+    JSONObject getownerobj = null;
     JSONObject selWork = null;
     private String tempid;
-
+    User owner;
+    User LoggedUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workview);
 
-        downloadowners task3 = new downloadowners();
+        JSONobjdownloadtask ownertask = new JSONobjdownloadtask();
         JSONobjdownloadtask task = new JSONobjdownloadtask();
         TypeDownloadtask task1 = new TypeDownloadtask();
         int id = Integer.parseInt(getIntent().getStringExtra("workid"));
@@ -50,8 +49,8 @@ public class Workview extends AppCompatActivity {
         try {
             String workid = selWork.getString("id");
             try {
-                getowner = task3.execute(Constants.api_server +"users/owner/"+ workid).get();
-                Log.i("user", getowner.toString());
+                getownerobj = ownertask.execute(Constants.api_server +"users/owner/"+ workid).get();
+                Log.i("user", getownerobj.toString());
             }catch (ExecutionException e) {
                 e.printStackTrace();
                 selWork = null;
@@ -60,8 +59,8 @@ public class Workview extends AppCompatActivity {
         }catch ( Exception e){
             e.printStackTrace();
         }
-
-
+        owner = getowner();
+        Log.i("owner", owner.getEmail());
 
         Log.i("Worktteste", selWork.toString());
         populatework();
@@ -82,17 +81,16 @@ public class Workview extends AppCompatActivity {
 
     //change to profile
     private void switchtoprofileview() {
-        User user = getowner();
         Intent switchActivityIntent = new Intent(this, ProfileActivity1.class);
-        Log.i("teste", user.getName());
-        switchActivityIntent.putExtra("User", user);
+        Log.i("teste", owner.getName());
+        switchActivityIntent.putExtra("User", owner);
         startActivity(switchActivityIntent);
     }
 
 
     private void populatework(){
         Work work = getWork();
-        User user = getowner();
+        User user = owner;
 
         TextView type = (TextView) (findViewById(R.id.textviewtype));
         TextView pricehr = (TextView) (findViewById(R.id.textviewpreco));
@@ -111,15 +109,19 @@ public class Workview extends AppCompatActivity {
 
     private User getowner(){
         User user = null;
-        if(getowner != null){
+        if(getownerobj != null){
             try{
-                int id = getowner.getInt(0);
-                String nome= getowner.getString(1);
-                String email = getowner.getString(2);
-                int jobn = getowner.getInt(3);
-                int rating = getowner.getInt(4);
+                /*
+                int id = getownerobj.getInt("id");
+                String nome= getownerobj.getString("name");
+                String email = getownerobj.getString("email");
+                int jobn = getownerobj.getInt("jobnumber");
+                Integer rating = getownerobj.getInt("rating");
                 user = new User(id, nome, email, jobn, rating);
-                Log.i("user", nome);
+
+                   */
+                user = utilities.populate_usr(getownerobj);
+                Log.i("user", owner.getName());
             }catch (Exception e) {
                 e.printStackTrace();
             }

@@ -62,7 +62,7 @@ public class UserController {
         }else throw new NotFoundException(""+usrid, "User", "id");
     }
 
-    //get specific user info 
+    //getuser
     @GetMapping(path = "/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<User> getUser(@PathVariable("usrid") int usrid) throws NotFoundException{
         Optional<User> _user = userRepository.findById(usrid);

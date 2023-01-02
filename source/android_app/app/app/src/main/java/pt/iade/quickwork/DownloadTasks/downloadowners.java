@@ -1,17 +1,20 @@
-package pt.iade.quickwork.JSONtasks;
+package pt.iade.quickwork.DownloadTasks;
 
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
 
-public class JSONobjdownloadtask extends AsyncTask<String, Void, JSONObject> {
+public class downloadowners extends AsyncTask<String, Void, JSONArray> {
+
     @Override
-    protected JSONObject doInBackground(String... urls) {
+    protected JSONArray doInBackground(String... urls) {
 
         String result = "";
         URL url;
@@ -33,7 +36,6 @@ public class JSONobjdownloadtask extends AsyncTask<String, Void, JSONObject> {
             }
 
             JSONObject jsonObject = new JSONObject(result);
-            /*
             JSONArray arr = new JSONArray();
             Iterator x = jsonObject.keys();
             while(x.hasNext()){
@@ -41,8 +43,8 @@ public class JSONobjdownloadtask extends AsyncTask<String, Void, JSONObject> {
                 arr.put(jsonObject.get(key));
             }
 
-            */
-            return jsonObject;
+
+            return arr;
 
         }catch (Exception e){
             e.printStackTrace();
@@ -52,7 +54,7 @@ public class JSONobjdownloadtask extends AsyncTask<String, Void, JSONObject> {
     }
 
     @Override
-    protected void onPostExecute(JSONObject jsonObject) {
-        super.onPostExecute(jsonObject);
+    protected void onPostExecute(JSONArray jsonArray) {
+        super.onPostExecute(jsonArray);
     }
 }

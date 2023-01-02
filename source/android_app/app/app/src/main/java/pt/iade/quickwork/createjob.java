@@ -7,11 +7,11 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,14 +32,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import pt.iade.quickwork.JSONtasks.JSONarraydownloadtask;
+import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.models.User;
-import pt.iade.quickwork.JSONtasks.PutTask;
+import pt.iade.quickwork.DownloadTasks.PutTask;
 import pt.iade.quickwork.models.Work;
 
 public class createjob extends AppCompatActivity implements OnMapReadyCallback {
@@ -57,7 +55,6 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
 
     ArrayList<String> type = new ArrayList<>();
     JSONArray types = new JSONArray();
-    PutTask createJob = new PutTask();
     JSONarraydownloadtask task = new JSONarraydownloadtask();
 
     @Override
@@ -117,7 +114,7 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
 
         map = googleMap;
-
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -138,24 +135,25 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
 
             }
         };
-
-        map.getUiSettings().setMyLocationButtonEnabled(false);
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        //map.moveCamera(CameraUpdateFactory.zoomTo(15));
-
-        //map.addMarker( new MarkerOptions().position(jobloc));
-        //
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         }else {
+
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+            if (lastKnownLocation != null){
+                LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+            }
             map.setMyLocationEnabled(true);
-            Log.i("localização", userLocation.latitude+" "+userLocation.longitude);
         }
+
+
+        map.getUiSettings().setMyLocationButtonEnabled(false);
+        //map.moveCamera(CameraUpdateFactory.zoomTo(15));
+
+        //map.addMarker( new MarkerOptions().position(jobloc));
+
 
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -216,6 +214,8 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     private void addwork(){
+
+        PutTask createJob = new PutTask();
         JSONObject workobject = new JSONObject();
         Integer response= 0;
         Work work = createWork();
@@ -228,18 +228,29 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
         }
         try {
            response = createJob.execute(Constants.api_server+"work/"+loggedUser.getId(), workobject.toString()).get();
+           createJob = null;
+
+            Intent switchActivityIntent = new Intent(this, Job_creator.class);
+            switchActivityIntent.putExtra("User", loggedUser);
+            startActivity(switchActivityIntent);
+            Log.i("user", "is occuppied");
+
+
+
+
+
+
+
+
+
+
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-
         if(response == 200){
             Log.i("resposta", ""+response);
-
-
-
-
         }else{
-
+            Toast.makeText(this, "aconteceu algum erro em criar o trabalho", Toast.LENGTH_SHORT).show();
         }
 
 

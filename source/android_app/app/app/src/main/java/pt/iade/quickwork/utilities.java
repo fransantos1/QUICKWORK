@@ -1,6 +1,5 @@
 package pt.iade.quickwork;
 
-import android.location.LocationManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-import pt.iade.quickwork.JSONtasks.JSONarraydownloadtask;
+import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
 

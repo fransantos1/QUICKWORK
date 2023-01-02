@@ -2,6 +2,7 @@ package pt.iade.QUICKWORK.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import pt.iade.QUICKWORK.models.repositories.UserRepository;
 import pt.iade.QUICKWORK.models.repositories.WorkRepository;
 import pt.iade.QUICKWORK.models.views.Workmapview;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,7 @@ public class WorkController {
     public Work savework(@RequestBody Work work, @PathVariable("usrid") int usrid)throws NotFoundException{
         Optional<User> _user = userRepository.findById(usrid);
         if(_user.isPresent()){
+         
             workrepository.savework(work.getLat(), work.getLon(), work.getPricehr(), work.getTypeid());
 
             Logger.info("work added\nAdding foreighn keys");
@@ -50,6 +53,7 @@ public class WorkController {
         }else throw new NotFoundException(""+usrid, "user", "id");
 
     }
+    //get all users from a work
     @GetMapping(path = "/users/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ArrayList<customusrview> getusers(@PathVariable("workid") int id)throws NotFoundException{
         Optional<Work> _work= workrepository.findById(id);
@@ -62,18 +66,7 @@ public class WorkController {
         return test;
         } else throw new NotFoundException(""+id, "id", "work" );
     }
-
-
-
-    //DEBUG 
-    @GetMapping(path = "/debug/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Work getworkdebug(@PathVariable("workid") int id){
-        Logger.info("sending all jobs");
-
-        return workrepository.findById(id).get();
-    }
-    
-
+   
 
 
     //get all available jobs (only needs loc, type and id) 
@@ -84,8 +77,23 @@ public class WorkController {
         return workrepository.workmapshow();
     }
     
+    //get work from owner 
+    @GetMapping(path = "/owner/{usrid}")
+    public workview getworkfromowner(@PathVariable("usrid")int usr_id)throws NotFoundException{
+        Optional<User> usr = userRepository.findById(usr_id);
+        if( usr.isPresent()) {
+
+            workview _work= workrepository.getworkfromowner(usr_id);
+            return _work;
+        }else throw new NotFoundException(""+usr_id, "id", "usr" ); 
+    }
+
+
+
+
+
     
-    //get work from usr
+    //get work from working usr
     @GetMapping(path = "/user/{usrid}")
     public workview getworkfromworker(@PathVariable("usrid")int usr_id)throws NotFoundException{
         Optional<User> usr = userRepository.findById(usr_id);
@@ -106,13 +114,40 @@ public class WorkController {
             return _work;
         }else throw new NotFoundException(""+id, "id", "Work" ); 
     }  
-    //TODO modify work state
-    
+    // modify work state
+    @PatchMapping(path="/setState/{stateid}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setState(@RequestBody Work work, @PathVariable("stateid") int id)throws NotFoundException{
+        Optional<Work> _work = workrepository.findById(work.getId());
+        if(_work.isPresent()){
+            workrepository.setState(work.getId(), id);
+            Logger.info("modified state on "+ work.getId());
+        }else throw new NotFoundException(""+work.getId(), "work", "id");
+        
+        
+    }
+    //get the state a work is on
+    @GetMapping(path="/getState/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getState(@PathVariable("workid") int id) throws NotFoundException{
+        Optional<Work> _work = workrepository.findById(id);
+        if(_work.isPresent()){
+            String state = workrepository.getState(id);
+
+            return state;
+
+        }else throw new NotFoundException(""+id, "work", "id");
+    }
+
+
+
+
+
+
+
+
     //TODO see all comments on a specified work
 
     //TODO see all people that worked in a job
 
-    //TODO accept work
 
 
     

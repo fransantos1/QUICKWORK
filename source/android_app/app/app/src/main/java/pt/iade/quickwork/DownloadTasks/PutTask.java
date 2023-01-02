@@ -1,4 +1,4 @@
-package pt.iade.quickwork.JSONtasks;
+package pt.iade.quickwork.DownloadTasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
