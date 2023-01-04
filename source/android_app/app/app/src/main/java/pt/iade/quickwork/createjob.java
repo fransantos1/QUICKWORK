@@ -86,6 +86,7 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
         //POPULATE DROPLIST
         try {
             types = task.execute(Constants.api_server+"worktype").get();
+            Log.i("types", types.toString());
             task.cancel(true);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -203,7 +204,7 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
             for (int i = 0; i < types.length(); i++){
                 try {
                     JSONObject jsonpart = types.getJSONObject(i);
-                    type.add(jsonpart.getString("name")+"    "+jsonpart.getDouble("pricehr")+"€/hr");
+                    type.add(jsonpart.getString("name")+"ㅤ    "+jsonpart.getDouble("pricehr")+"€/hr");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -229,21 +230,6 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
         try {
            response = createJob.execute(Constants.api_server+"work/"+loggedUser.getId(), workobject.toString()).get();
            createJob = null;
-
-            Intent switchActivityIntent = new Intent(this, Job_creator.class);
-            switchActivityIntent.putExtra("User", loggedUser);
-            startActivity(switchActivityIntent);
-            Log.i("user", "is occuppied");
-
-
-
-
-
-
-
-
-
-
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -251,8 +237,12 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
             Log.i("resposta", ""+response);
         }else{
             Toast.makeText(this, "aconteceu algum erro em criar o trabalho", Toast.LENGTH_SHORT).show();
+            return;
         }
-
+        Intent switchActivityIntent = new Intent(this, Job_creator.class);
+        switchActivityIntent.putExtra("User", loggedUser);
+        startActivity(switchActivityIntent);
+        Log.i("user", "is occuppied");
 
     }
 
@@ -263,7 +253,7 @@ public class createjob extends AppCompatActivity implements OnMapReadyCallback {
         LatLng loc = null;
         String parts[];
 
-        parts = spinnertype.getSelectedItem().toString().split(" ");
+        parts = spinnertype.getSelectedItem().toString().split("ㅤ");
         type = parts[0];
         if (editpricehr.getText().toString().matches("")) {
             Toast.makeText(this, "por favor insira preço do trabalho", Toast.LENGTH_SHORT).show();

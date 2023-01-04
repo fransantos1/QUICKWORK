@@ -1,6 +1,7 @@
 package pt.iade.quickwork.DownloadTasks;
 
 
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,7 +11,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Patchtask extends AsyncTask<String, Void, Integer> {
+public class PatchwithoutWrite extends AsyncTask<String, Void, Integer> {
 
     private static final String USER_AGENT = "application/json";
 
@@ -27,20 +28,17 @@ public class Patchtask extends AsyncTask<String, Void, Integer> {
         try {
 
             url = new URL(urls[0]);
-            result = urls[1];
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PATCH");
             con.setRequestProperty("Content-Type", USER_AGENT);
 
             con.setDoOutput(true);
             OutputStream os = con.getOutputStream();
-            os.write(result.getBytes());
-            Log.i("Put Test", result);
             os.flush();
             os.close();
 
             responseCode = con.getResponseCode();
-            System.out.println("Patch Response Code :: " + responseCode);
+            System.out.println("POST Response Code :: " + responseCode);
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));

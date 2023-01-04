@@ -2,12 +2,16 @@ package pt.iade.QUICKWORK.models.repositories;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import pt.iade.QUICKWORK.models.User;
 import pt.iade.QUICKWORK.models.views.UsrJobsView;
+import pt.iade.QUICKWORK.models.views.UsrLocview;
 import pt.iade.QUICKWORK.models.views.getownerview;
 
 
@@ -50,6 +54,24 @@ public interface UserRepository extends CrudRepository<User,Integer> {
         Boolean isUserowner(@Param("id") int id);
         //-------------------------------------------------------------------------------------
         
+        //user location 
+        //----------------------------------------------------------------------------------------
+        //get location
+        @Query(value = "select usr_loc[0] as lat, usr_loc[1] as lon from usr where usr_id = :usrid", nativeQuery = true)
+        UsrLocview getlocation(@Param("usrid") int id);
+
+        //set location
+        @Transactional
+        @Modifying
+        @Query(value =  "UPDATE usr"+
+                        " SET usr_loc = POINT(:lat, :lon)"+
+                        " where usr_id = :usrid ", nativeQuery = true)
+        void setlocation(@Param("usrid") int id, @Param("lat") Double lat, @Param("lon") Double lon);
+
+        
+
+
+
 
 
 }   

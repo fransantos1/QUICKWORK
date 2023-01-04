@@ -115,7 +115,7 @@ public class utilities {
             }
 
         }
-
+        Log.i("type", type_id.get(0)+"");
 
         JSONObject workobj = new JSONObject();
         String type;

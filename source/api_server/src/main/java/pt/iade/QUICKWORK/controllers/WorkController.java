@@ -12,13 +12,19 @@ import pt.iade.QUICKWORK.models.exceptions.NotFoundException;
 import pt.iade.QUICKWORK.models.User;
 import pt.iade.QUICKWORK.models.Work;
 
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,10 +65,6 @@ public class WorkController {
         Optional<Work> _work= workrepository.findById(id);
         if (_work.isPresent()){
             ArrayList<customusrview> test = workrepository.getusers(id);
-            Logger.info(test.get(1).getname());
-
-
-
         return test;
         } else throw new NotFoundException(""+id, "id", "work" );
     }
@@ -71,10 +73,17 @@ public class WorkController {
 
     //get all available jobs (only needs loc, type and id) 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Workmapview> getworks(){
-        Logger.info("sending all jobs");
-
-        return workrepository.workmapshow();
+    public ArrayList<Workmapview> getworks(){
+        ArrayList<Workmapview> _workmap = workrepository.workmapshow();
+        ArrayList<Workmapview> workmap = new ArrayList<>();
+        for(int i = 0; i< _workmap.size(); i++){
+                Workmapview temp = _workmap.get(i);
+                String state = workrepository.getState(temp.getid());
+                if(state.equals("Em espera")){
+                    workmap.add(temp);
+                }
+            }
+        return workmap;
     }
     
     //get work from owner 
@@ -114,17 +123,38 @@ public class WorkController {
             return _work;
         }else throw new NotFoundException(""+id, "id", "Work" ); 
     }  
-    // modify work state
-    @PatchMapping(path="/setState/{stateid}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setState(@RequestBody Work work, @PathVariable("stateid") int id)throws NotFoundException{
-        Optional<Work> _work = workrepository.findById(work.getId());
+    // cancel job
+    @DeleteMapping(path="/cancel/{workid}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public void CancelJob(@PathVariable("workid") int id)throws NotFoundException{
+        Optional<Work> _work = workrepository.findById(id);
         if(_work.isPresent()){
-            workrepository.setState(work.getId(), id);
-            Logger.info("modified state on "+ work.getId());
-        }else throw new NotFoundException(""+work.getId(), "work", "id");
+            workrepository.deleteJob(id);
+        }else throw new NotFoundException(""+id, "work", "id");
         
         
     }
+    //finish job
+    @PatchMapping(path= "/finish/{workid}", produces =MediaType.APPLICATION_JSON_VALUE)
+    public void FinishJob(@PathVariable("workid") int id)throws NotFoundException{
+        Optional<Work> _work = workrepository.findById(id);
+        if(_work.isPresent()){
+            LocalDateTime teste = LocalDateTime.now();
+            workrepository.FinishJob(id, teste);
+
+        }else throw new NotFoundException(""+id, "work", "id");
+        
+        
+    }
+
+
+
+
+
+
+
+
+
+
     //get the state a work is on
     @GetMapping(path="/getState/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getState(@PathVariable("workid") int id) throws NotFoundException{
@@ -137,8 +167,17 @@ public class WorkController {
         }else throw new NotFoundException(""+id, "work", "id");
     }
 
-
-
+    //acceptWork
+    @PatchMapping(path="/accept/{usrid}/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void acceptwork(@PathVariable("workid") int workid, @PathVariable("usrid") int usrid){
+        LocalDateTime starting = LocalDateTime.now();
+        //modify work
+        workrepository.acceptWork(starting, workid);
+        //add dependecies   
+        workrepository.acceptWork1(usrid, workid);
+        //change state
+        workrepository.setState(workid, 2);
+    } 
 
 
 

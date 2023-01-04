@@ -31,7 +31,7 @@
         android:id="@+id/textView_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:text="Preço pago á hora"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -40,12 +40,13 @@
 
     <EditText
         android:id="@+id/editText_pricehr"
-        android:layout_width="108dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="114dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_price" />
 

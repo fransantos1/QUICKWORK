@@ -1,6 +1,8 @@
 package pt.iade.quickwork;
 
 import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
+import pt.iade.quickwork.DownloadTasks.Patchtask;
+import pt.iade.quickwork.DownloadTasks.PatchwithoutWrite;
 import pt.iade.quickwork.DownloadTasks.TypeDownloadtask;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
@@ -14,7 +16,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
@@ -27,6 +31,8 @@ public class Workview extends AppCompatActivity {
     private String tempid;
     User owner;
     User LoggedUser;
+    Button button, accept_button;
+    Work work;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,7 @@ public class Workview extends AppCompatActivity {
         JSONobjdownloadtask ownertask = new JSONobjdownloadtask();
         JSONobjdownloadtask task = new JSONobjdownloadtask();
         TypeDownloadtask task1 = new TypeDownloadtask();
+        LoggedUser = (User) getIntent().getSerializableExtra("User");
         int id = Integer.parseInt(getIntent().getStringExtra("workid"));
         Log.i("teste", "got here");
 
@@ -45,11 +52,12 @@ public class Workview extends AppCompatActivity {
             e.printStackTrace();
             selWork = null;
         }
+
+        work = getWork();
         //get owner
         try {
-            String workid = selWork.getString("id");
             try {
-                getownerobj = ownertask.execute(Constants.api_server +"users/owner/"+ workid).get();
+                getownerobj = ownertask.execute(Constants.api_server +"users/owner/"+ work.getId()).get();
                 Log.i("user", getownerobj.toString());
             }catch (ExecutionException e) {
                 e.printStackTrace();
@@ -64,20 +72,38 @@ public class Workview extends AppCompatActivity {
 
         Log.i("Worktteste", selWork.toString());
         populatework();
-
-        Button button = (Button) findViewById(R.id.buttonentrar);
+        button = (Button) findViewById(R.id.buttonentrar);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 switchtoprofileview();
             }
         });
-
+        accept_button = (Button) findViewById(R.id.button_acceptwork);
+        accept_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                acceptJOB();
+            }
+        });
 
 
     }
+    private void acceptJOB(){
+        int response;
+        PatchwithoutWrite task1 = new PatchwithoutWrite();
+        try {
+            response = task1.execute(Constants.api_server+"work/accept/"+LoggedUser.getId()+"/"+work.getId()).get();
+            if ( response == 200){
+                Intent switchActivityIntent = new Intent(this, Job_worker.class);
+                switchActivityIntent.putExtra("User", LoggedUser);
+                startActivity(switchActivityIntent);
+            }else {
+                Toast.makeText(this, "ocorreu um erro a aceitar", Toast.LENGTH_SHORT).show();
+            }
 
-
-
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     //change to profile
     private void switchtoprofileview() {
@@ -89,7 +115,6 @@ public class Workview extends AppCompatActivity {
 
 
     private void populatework(){
-        Work work = getWork();
         User user = owner;
 
         TextView type = (TextView) (findViewById(R.id.textviewtype));

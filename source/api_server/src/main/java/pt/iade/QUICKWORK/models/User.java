@@ -24,6 +24,7 @@ public class User {
     @Column(name="usr_avg_rating") private Integer rating;
 
 
+
     public User() {}
     
     public void setJobnumber(Integer jobnumber) {

@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
+import pt.iade.quickwork.DownloadTasks.StringDownload;
 import pt.iade.quickwork.databinding.ActivityJobsmapBinding;
 import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.models.User;
@@ -46,7 +47,8 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
     JSONArray arrayWorkstemp=null;
     User LoggedUser;
     Button create_job;
-
+    Marker marker;
+    Boolean refresh = true;
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -58,6 +60,18 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
                 }
             }
         }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        refresh = false;
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        refresh = true;
+        refresh_works(1000);
+
     }
 
     @Override
@@ -167,70 +181,68 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
 
         }
         mMap.setMyLocationEnabled(true);
-        Handler h = new Handler();
-        int delay = 10 * 1000;
-        h.postDelayed(new Runnable(){
-            public void run(){
-                JSONarraydownloadtask tasktemp = new JSONarraydownloadtask();
 
-                try {
-                    arrayWorkstemp = tasktemp.execute(Constants.api_server + "work").get();
-                    tasktemp.cancel(true);
-                    Log.i("Jsonarray", arrayWorkstemp.toString()+"  "+arrayWorks.toString());
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if(!arrayWorkstemp.toString().equals(arrayWorks.toString())){
-                    Log.i("JsonArray", "are not equal");
-                    mMap.clear();
-                    Marker workmarker;
-                    arrayWorks= arrayWorkstemp;
-                    for (int i = 0; i < arrayWorks.length();i++){
-                        try {
-                            JSONObject jsonPart = arrayWorks.getJSONObject(i);
-                            LatLng work = new LatLng(jsonPart.getDouble("lat"), jsonPart.getDouble("lon"));
-                            workmarker = mMap.addMarker(new MarkerOptions()
-                                    .position(work)
-                                    .title(jsonPart.getString("type"))
-                            );
-                            workmarker.setTag(jsonPart.getString("id"));
-                        }catch (Exception e){e.printStackTrace();}
-                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                            public void onInfoWindowClick(Marker marker) {
-                                String workid = (String) marker.getTag();
-                                Log.i("workid", workid);
-                                switchtoworkview(workid);
+        refresh_works(1000);
 
-                            }
-                        });
-                    }
 
-                }
-                tasktemp = null;
-                h.postDelayed(this, delay);
+
+
+
+    }
+    public void refresh_works(int miliseconds){
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                GetWorks();
             }
-        }, delay);
+        };
+        handler.postDelayed(runnable, miliseconds);
+    }
+    public void GetWorks() {
+        JSONarraydownloadtask tasktemp = new JSONarraydownloadtask();
 
+        try {
+            arrayWorkstemp = tasktemp.execute(Constants.api_server + "work").get();
+            tasktemp.cancel(true);
+            Log.i("Jsonarray", arrayWorkstemp.toString()+"  "+arrayWorks.toString());
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(!arrayWorkstemp.toString().equals(arrayWorks.toString())){
+            Log.i("JsonArray", "are not equal");
+            mMap.clear();
+            Marker workmarker;
+            arrayWorks= arrayWorkstemp;
+            for (int i = 0; i < arrayWorks.length();i++){
+                try {
+                    JSONObject jsonPart = arrayWorks.getJSONObject(i);
+                    LatLng work = new LatLng(jsonPart.getDouble("lat"), jsonPart.getDouble("lon"));
+                    workmarker = mMap.addMarker(new MarkerOptions()
+                            .position(work)
+                            .title(jsonPart.getString("type"))
+                    );
+                    workmarker.setTag(jsonPart.getString("id"));
+                }catch (Exception e){e.printStackTrace();}
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    public void onInfoWindowClick(Marker marker) {
+                        String workid = (String) marker.getTag();
+                        Log.i("workid", workid);
+                        switchtoworkview(workid);
 
+                    }
+                });
+            }
 
-
-
+        }
+        tasktemp = null;
+        if (refresh){refresh_works(1000);}
     }
     private void switchtoworkview(String id) {
         Log.i( "id", id);
         Intent switchActivityIntent = new Intent(this, Workview.class);
         switchActivityIntent.putExtra("workid", id);
+        switchActivityIntent.putExtra("User",LoggedUser);
         startActivity(switchActivityIntent);
     }
-
-
-
-
-
-        /*
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        */
 }

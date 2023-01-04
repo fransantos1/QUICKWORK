@@ -30,10 +30,29 @@
         android:id="@+id/button_cancelJob"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="CANCEL"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_showstatus" />
+
+    <Button
+        android:id="@+id/button_next1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_showstatus" />
+
+    <Button
+        android:id="@+id/button_back1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_showstatus" />
 
@@ -41,12 +60,24 @@
         android:id="@+id/textView_showstatus"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="78dp"
+        android:layout_marginTop="20dp"
         android:text="TextView"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextView_statusstring" />
+
+    <TextView
+        android:id="@+id/textView_workers1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="89dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/button_next1"
+        app:layout_constraintStart_toEndOf="@+id/button_back1"
+        app:layout_constraintTop_toBottomOf="@+id/textView_showstatus" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

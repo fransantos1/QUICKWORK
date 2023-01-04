@@ -12,22 +12,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import pt.iade.QUICKWORK.models.Response;
 import pt.iade.QUICKWORK.models.User;
+import pt.iade.QUICKWORK.models.usrloc;
 import pt.iade.QUICKWORK.models.usrworkinfo;
 import pt.iade.QUICKWORK.models.repositories.UserRepository;
 import pt.iade.QUICKWORK.models.views.UsrJobsView;
+import pt.iade.QUICKWORK.models.views.UsrLocview;
 import pt.iade.QUICKWORK.models.views.getownerview;
 import pt.iade.QUICKWORK.models.exceptions.NotFoundException;
 @RestController
 @RequestMapping(path ="/api/users")
 public class UserController {
     private Logger Logger = LoggerFactory.getLogger(UserController.class);
-
 
     @Autowired
     private UserRepository userRepository;
@@ -37,6 +39,25 @@ public class UserController {
         Logger.info("Sending all usrs");
         return userRepository.findAll();
     }
+
+    //get user location
+    @GetMapping(path = "/{usrid}/location", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public UsrLocview getLocation(@PathVariable("usrid") int id){   
+        return userRepository.getlocation(id);
+        
+    }
+    //update user location
+    @PatchMapping(path = "/{usrid}/location", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public void setLocation(@PathVariable("usrid") int id, @RequestBody usrloc loc){
+            Logger.info(loc.getLat()+" "+ loc.getLon());
+            userRepository.setlocation(id, loc.getLat(), loc.getLon());
+    }
+
+
+
+
+
+
     //add user
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public User saveUsr(@RequestBody User usr) {
@@ -104,9 +125,6 @@ public class UserController {
             return jobs;
             }else throw new NotFoundException(""+usrid, "User", "Id");
       }    
-
-      //set user location*/-+
-
     
     
 

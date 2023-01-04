@@ -1,11 +1,17 @@
 package pt.iade.quickwork;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +37,8 @@ import java.util.concurrent.ExecutionException;
 
 import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
+import pt.iade.quickwork.DownloadTasks.Patchtask;
+import pt.iade.quickwork.DownloadTasks.PatchwithoutWrite;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
 
@@ -39,7 +48,7 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
     MapView mapView;
     GoogleMap map;
     Button button;
-    User user;
+    User userLogged;
     ArrayList<User> arrayusers;
     Work work;
     JSONArray usersArray;
@@ -47,7 +56,8 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
     JSONobjdownloadtask task = new JSONobjdownloadtask();
     JSONarraydownloadtask task1 = new JSONarraydownloadtask();
     Button back_button, forward_button;
-
+    LocationManager locationManager;
+    LocationListener locationListener;
 
 
     @Override
@@ -65,9 +75,9 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
         workprice = findViewById(R.id.textView_pricehr);
         worktype = findViewById(R.id.textView_type);
 
-        user = (User) getIntent().getSerializableExtra("User");
+        userLogged = (User) getIntent().getSerializableExtra("User");
         try {
-            workObject =  task.execute(Constants.api_server +"work/user/"+user.getId()).get();
+            workObject =  task.execute(Constants.api_server +"work/user/"+userLogged.getId()).get();
             int id = workObject.getInt("id");
             usersArray = task1.execute(Constants.api_server+"work/users/"+id).get();
         } catch (ExecutionException | InterruptedException | JSONException e) {
@@ -78,8 +88,6 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
 
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
-
         arrayusers = populate_array(usersArray);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -134,11 +142,60 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
         LatLng jobloc = new LatLng(lat, lon);
         map.addMarker( new MarkerOptions().position(jobloc));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(jobloc, 15));
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+
+            @Override
+            public void onLocationChanged(Location location) {
+                Patchtask finish = new Patchtask();
+                JSONObject loc = new JSONObject();
+                try {
+                    loc.put("lat", location.getLatitude());
+                    loc.put("lon", location.getLongitude());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    finish.execute(Constants.api_server+"users/"+userLogged.getId()+"/location",loc.toString()).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{ Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
+        else
+        {
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0,
+                    locationListener
+            );
         }
         map.setMyLocationEnabled(true);
-        //map.moveCamera(CameraUpdateFactory.);
     }
     @Override
     public void onResume() {
@@ -244,7 +301,24 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
         startActivity(mapIntent);
         Log.i("button", "directions selected");
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED)
+            {
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        0,
+                        0,
+                        locationListener
+                );
+            }
+        }
+    }
 
 
 }
