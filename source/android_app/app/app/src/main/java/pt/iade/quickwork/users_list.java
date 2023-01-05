@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -105,14 +106,18 @@ public class users_list extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(jsonObject!= null){
-            try {
-                isoccupied = jsonObject.getBoolean("haswork");
-                isowner = jsonObject.getBoolean("isowner");
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        if(jsonObject== null){
+
+            Toast.makeText(this, "Aconteceu um erro a tentar iniciar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            isoccupied = jsonObject.getBoolean("haswork");
+            isowner = jsonObject.getBoolean("isowner");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         //changing to different activities
         if(isoccupied){

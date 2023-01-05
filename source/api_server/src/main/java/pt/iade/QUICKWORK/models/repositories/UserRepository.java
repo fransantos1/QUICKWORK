@@ -50,7 +50,7 @@ public interface UserRepository extends CrudRepository<User,Integer> {
         //verifying if he is the owner of the jobs
         @Query(value =  " select uw_usrcreate"+
                         " from usrwork" +
-                        " where uw_usr_id = :id", nativeQuery = true)
+                        " where uw_usr_id = :id order by uw_id desc limit 1", nativeQuery = true)
         Boolean isUserowner(@Param("id") int id);
         //-------------------------------------------------------------------------------------
         
@@ -69,6 +69,12 @@ public interface UserRepository extends CrudRepository<User,Integer> {
         void setlocation(@Param("usrid") int id, @Param("lat") Double lat, @Param("lon") Double lon);
 
         
+        @Transactional
+        @Modifying
+        @Query(value =  "UPDATE usr"+
+                        " SET usr_njobs = :njob"+
+                        " where usr_id = :usrid ", nativeQuery = true)
+        void setnjob(@Param("usrid") int id, @Param("njob") int njob);
 
 
 

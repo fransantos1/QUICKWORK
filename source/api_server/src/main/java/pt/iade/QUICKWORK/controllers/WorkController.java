@@ -12,12 +12,8 @@ import pt.iade.QUICKWORK.models.exceptions.NotFoundException;
 import pt.iade.QUICKWORK.models.User;
 import pt.iade.QUICKWORK.models.Work;
 
-import java.lang.reflect.Array;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -42,6 +38,48 @@ public class WorkController {
     @Autowired
     private UserRepository userRepository;
 
+
+    //get all available jobs (only needs loc, type and id) 
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<Workmapview> getworks(){
+        ArrayList<Workmapview> _workmap = workrepository.workmapshow();
+        ArrayList<Workmapview> workmap = new ArrayList<>();
+        for(int i = 0; i< _workmap.size(); i++){
+                Workmapview temp = _workmap.get(i);
+                String state = workrepository.getState(temp.getid());
+                if(state.equals("Em espera")){
+                    workmap.add(temp);
+                }
+            }
+        return workmap;
+    }
+    
+    //get specific work
+    @GetMapping(path = "/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public workview getwork(@PathVariable("workid") int id)throws NotFoundException{
+
+        workview _work = workrepository.getworkandtype(id);
+
+        if( _work != null) {
+            Logger.info("Sending "+ id);
+            return _work;
+        }else throw new NotFoundException(""+id, "id", "Work" ); 
+    }  
+
+    //get all users from a work
+    @GetMapping(path = "/users/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<customusrview> getusers(@PathVariable("workid") int id)throws NotFoundException{
+        Optional<Work> _work= workrepository.findById(id);
+        if (_work.isPresent()){
+            ArrayList<customusrview> test = workrepository.getusers(id);
+        return test;
+        } else throw new NotFoundException(""+id, "id", "work" );
+    }
+   
+
+
+    
+    
     //TODO NEED TO VERIFY if user isnt occupied
     // create a job and do all the necessery inserts
     @PutMapping(path ="/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,33 +97,6 @@ public class WorkController {
         }else throw new NotFoundException(""+usrid, "user", "id");
 
     }
-    //get all users from a work
-    @GetMapping(path = "/users/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ArrayList<customusrview> getusers(@PathVariable("workid") int id)throws NotFoundException{
-        Optional<Work> _work= workrepository.findById(id);
-        if (_work.isPresent()){
-            ArrayList<customusrview> test = workrepository.getusers(id);
-        return test;
-        } else throw new NotFoundException(""+id, "id", "work" );
-    }
-   
-
-
-    //get all available jobs (only needs loc, type and id) 
-    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ArrayList<Workmapview> getworks(){
-        ArrayList<Workmapview> _workmap = workrepository.workmapshow();
-        ArrayList<Workmapview> workmap = new ArrayList<>();
-        for(int i = 0; i< _workmap.size(); i++){
-                Workmapview temp = _workmap.get(i);
-                String state = workrepository.getState(temp.getid());
-                if(state.equals("Em espera")){
-                    workmap.add(temp);
-                }
-            }
-        return workmap;
-    }
-    
     //get work from owner 
     @GetMapping(path = "/owner/{usrid}")
     public workview getworkfromowner(@PathVariable("usrid")int usr_id)throws NotFoundException{
@@ -107,22 +118,12 @@ public class WorkController {
     public workview getworkfromworker(@PathVariable("usrid")int usr_id)throws NotFoundException{
         Optional<User> usr = userRepository.findById(usr_id);
         if( usr.isPresent()) {
-            workview _work= workrepository.getworkfromusr(usr_id, 2);
+            workview _work= workrepository.getworkfromusr(usr_id);
             return _work;
         }else throw new NotFoundException(""+usr_id, "id", "usr" ); 
     }
 
-    //get specific work
-    @GetMapping(path = "/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public workview getwork(@PathVariable("workid") int id)throws NotFoundException{
-
-        workview _work = workrepository.getworkandtype(id);
-
-        if( _work != null) {
-            Logger.info("Sending "+ id);
-            return _work;
-        }else throw new NotFoundException(""+id, "id", "Work" ); 
-    }  
+    
     // cancel job
     @DeleteMapping(path="/cancel/{workid}",produces = MediaType.APPLICATION_JSON_VALUE)
     public void CancelJob(@PathVariable("workid") int id)throws NotFoundException{
@@ -145,10 +146,6 @@ public class WorkController {
         
         
     }
-
-
-
-
 
 
 

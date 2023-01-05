@@ -35,13 +35,8 @@ public interface WorkRepository extends CrudRepository<Work,Integer> {
         workview getworkandtype(@Param("id") int work_id);
         
         //get the work somebody is working on 
-        @Query(value = "select work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as started_time, work_finished as finished_time, work_loc[0] as lat, work_loc[1] as lon, wt_name as type"+
-                        " from usrwork"+
-                        " inner join work on work_id = uw_work_id"+
-                        " inner join work_state on ws_work_id = work_id"+
-                        " inner join worktype on wt_id = work_wt_id" +
-                        " where ws_state_id =:state_id and uw_usr_id =:usr_id", nativeQuery = true)
-        workview getworkfromusr(@Param("usr_id") int usrid, @Param("state_id") int stateid);
+        @Query(value = "select work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as started_time, work_finished as finished_time, work_loc[0] as lat, work_loc[1] as lon, wt_name as type from work inner join usrwork on work_id = uw_work_id inner join work_state on ws_work_id = work_id inner join worktype on wt_id = work_wt_id where uw_usr_id = :user_id and ws_state_id != 4 and ws_state_id != 3 order by work_id desc  limit 1", nativeQuery = true)
+        workview getworkfromusr(@Param("user_id") int usrid);
         //get work
         @Query(value = "select work_id as id, work_pricehr as pricehr, work_tip as tip, work_starting as started_time, work_finished as finished_time, work_loc[0] as lat, work_loc[1] as lon, wt_name as type from work inner join usrwork on work_id = uw_work_id inner join work_state on ws_work_id = work_id inner join worktype on wt_id = work_wt_id where uw_usr_id = :user_id and ws_state_id != 4 and ws_state_id != 3 and uw_usrcreate is true order by work_id desc  limit 1", nativeQuery = true)
         workview getworkfromowner(@Param("user_id") int id);

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".createjob">
 
     <Spinner
         android:id="@+id/spinner_type"
-        android:layout_width="310dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,35 +19,44 @@
 
     <TextView
         android:id="@+id/textView_tipo"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        style="@style/secTítulo"
+        android:layout_width="281dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="49dp"
+        android:singleLine="true"
         android:text="Tipo de trabalho"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Preço pago á hora"
+        android:layout_marginTop="12dp"
+        android:text="Preço pago à hora"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_type" />
 
     <EditText
         android:id="@+id/editText_pricehr"
-        android:layout_width="114dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_price" />
 
@@ -54,20 +64,22 @@
         android:id="@+id/textView_symbol"
         android:layout_width="42dp"
         android:layout_height="40dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
         android:text="€"
+        android:textColor="@color/black"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/editText_pricehr"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_type" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_price" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_createjob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        style="@style/Button2"
+        android:layout_marginTop="8dp"
         android:text="ADD"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_pricehr" />
 
@@ -75,8 +87,9 @@
         android:id="@+id/mapView_Jobcreation"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_createjob" />
 

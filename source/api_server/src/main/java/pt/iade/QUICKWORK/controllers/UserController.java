@@ -4,6 +4,7 @@ package pt.iade.QUICKWORK.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.StackWalker.Option;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -33,6 +34,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+
+
     // for debug porpuses, show all users
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<User> getUsers() {
@@ -40,20 +44,27 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    
     //get user location
     @GetMapping(path = "/{usrid}/location", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public UsrLocview getLocation(@PathVariable("usrid") int id){   
-        return userRepository.getlocation(id);
-        
+    public UsrLocview getLocation(@PathVariable("usrid") int id) throws NotFoundException{   
+        Optional<User> _user = userRepository.findById(id);
+        if(!_user.isEmpty()){
+            return userRepository.getlocation(id);
+        }else throw new NotFoundException(""+id, "User", "id");
     }
     //update user location
     @PatchMapping(path = "/{usrid}/location", produces =  MediaType.APPLICATION_JSON_VALUE)
     public void setLocation(@PathVariable("usrid") int id, @RequestBody usrloc loc){
-            Logger.info(loc.getLat()+" "+ loc.getLon());
             userRepository.setlocation(id, loc.getLat(), loc.getLon());
     }
-
-
+    //add a job
+    @PatchMapping(path = "/{usrid}/addjob", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public void addnjob(@PathVariable("usrid") int id){
+        User user = userRepository.findById(id).get();
+        int njob = user.getJobnumber();
+        userRepository.setnjob(id, njob+1);
+    }
 
 
 
@@ -99,7 +110,7 @@ public class UserController {
         Logger.info(id+ "");
         Optional<getownerview> _ownerid = userRepository.getownerid1(id);  
         if(_ownerid.isEmpty()){
-            throw new NotFoundException(""+id, "user", "id");
+            throw new NotFoundException(""+id, "work", "id");
         }else{
             getownerview _owner = _ownerid.get();
              return userRepository.findById(_owner.getownerid());

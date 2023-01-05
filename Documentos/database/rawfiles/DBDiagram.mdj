@@ -2380,7 +2380,7 @@
 								"$ref": "AAAAAAGEELb+pCnchdk="
 							},
 							"name": "data_inicio",
-							"type": "data",
+							"type": "timestamp",
 							"length": 0
 						},
 						{
@@ -2390,7 +2390,7 @@
 								"$ref": "AAAAAAGEELb+pCnchdk="
 							},
 							"name": "data_fim",
-							"type": "data",
+							"type": "timestamp",
 							"length": 0
 						},
 						{

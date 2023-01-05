@@ -51,6 +51,7 @@ public class Job_creator extends AppCompatActivity implements OnMapReadyCallback
     Boolean refresh = true, refresh_loc = false;
     JSONObject workobj = new JSONObject();
     ArrayList<User> urs = new ArrayList<>();
+    ArrayList<Integer> ids = new ArrayList<>();
     Marker usermarker;
     int workId;
     int index =0;
@@ -240,8 +241,6 @@ public class Job_creator extends AppCompatActivity implements OnMapReadyCallback
         }
         urs = populate_array(usersArray);
 
-        Log.i("usersarrayowner", urs.get(1).getName());
-        Log.i("usersarrayowner", urs.get(0).getName());
 
 
 
@@ -310,10 +309,15 @@ public class Job_creator extends AppCompatActivity implements OnMapReadyCallback
     public void FINISHJOB(Work work){
         refresh_loc = false;
         PatchwithoutWrite finish = new PatchwithoutWrite();
+        PatchwithoutWrite addJob = new PatchwithoutWrite();
         int response = 0;
 
         try {
             response = finish.execute(Constants.api_server+"work/finish/"+workId).get();
+            for(int i= 0;i<urs.size(); i++){
+                addJob.execute(Constants.api_server+"user/"+ids.get(i)+"/addjob");
+            }
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -357,7 +361,6 @@ public class Job_creator extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public ArrayList<User> populate_array(JSONArray jsonArray){
-
         ArrayList<User> myUsers = new ArrayList<>();
         if(jsonArray != null) {
             User user= null;
@@ -365,6 +368,7 @@ public class Job_creator extends AppCompatActivity implements OnMapReadyCallback
                 try {
                     JSONObject jsonPart = jsonArray.getJSONObject(i);
                     user = utilities.populate_usr(jsonPart);
+                    ids.add(i, jsonPart.getInt("id"));
                     myUsers.add(user);
                     user = null;
                 }catch (Exception e){e.printStackTrace();}
