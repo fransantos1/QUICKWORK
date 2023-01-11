@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
+import pt.iade.quickwork.Job.Job_creator;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.DownloadTasks.PutTask;
 import pt.iade.quickwork.models.Work;

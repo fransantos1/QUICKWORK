@@ -1,11 +1,15 @@
-package pt.iade.quickwork;
+package pt.iade.quickwork.Job;
 
+import pt.iade.quickwork.Constants;
 import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
-import pt.iade.quickwork.DownloadTasks.Patchtask;
 import pt.iade.quickwork.DownloadTasks.PatchwithoutWrite;
 import pt.iade.quickwork.DownloadTasks.TypeDownloadtask;
+import pt.iade.quickwork.Job.Job_worker;
+import pt.iade.quickwork.ProfileActivity1;
+import pt.iade.quickwork.R;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
+import pt.iade.quickwork.utilities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,13 +22,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
 
-public class Workview extends AppCompatActivity {
+public class Job_view extends AppCompatActivity {
 
     JSONObject getownerobj = null;
     JSONObject selWork = null;

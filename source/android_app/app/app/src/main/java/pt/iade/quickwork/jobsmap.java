@@ -22,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,7 +32,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-import pt.iade.quickwork.DownloadTasks.StringDownload;
+import pt.iade.quickwork.Job.Job_view;
 import pt.iade.quickwork.databinding.ActivityJobsmapBinding;
 import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.models.User;
@@ -220,8 +221,7 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
                     LatLng work = new LatLng(jsonPart.getDouble("lat"), jsonPart.getDouble("lon"));
                     workmarker = mMap.addMarker(new MarkerOptions()
                             .position(work)
-                            .title(jsonPart.getString("type"))
-                    );
+                            .title(jsonPart.getString("type")));
                     workmarker.setTag(jsonPart.getString("id"));
                 }catch (Exception e){e.printStackTrace();}
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -240,7 +240,7 @@ public class jobsmap extends FragmentActivity implements OnMapReadyCallback {
     }
     private void switchtoworkview(String id) {
         Log.i( "id", id);
-        Intent switchActivityIntent = new Intent(this, Workview.class);
+        Intent switchActivityIntent = new Intent(this, Job_view.class);
         switchActivityIntent.putExtra("workid", id);
         switchActivityIntent.putExtra("User",LoggedUser);
         startActivity(switchActivityIntent);

@@ -17,14 +17,23 @@
         android:theme="@style/Theme.QUICKWORK"
         tools:targetApi="31">
         <activity
-            android:name=".Job_creator"
+            android:name=".Job.Job_creator"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Job_worker"
+            android:name="pt.iade.quickwork.Job.job_rating"
+            android:exported="false"
+
+            >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Job.Job_worker"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -71,7 +80,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Workview"
+            android:name=".Job.Job_view"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

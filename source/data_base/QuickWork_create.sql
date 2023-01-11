@@ -30,7 +30,7 @@ create table usr(
     usr_email VARCHAR(255) not null,
     usr_password VARCHAR(255) not null,
     usr_njobs INT,
-    usr_avg_rating smallINT check (usr_avg_rating between 1 and 5),
+    usr_avg_rating smallINT check (usr_avg_rating between 0 and 10),
     usr_loc POINT,
 
     primary key (usr_id)	
@@ -97,7 +97,7 @@ create table _state (
 create table rating (
     rating_id SERIAL not null,
     rating_comment VARCHAR(255),
-    rating_rat smallINT not null check (rating_rat between 1 and 5),
+    rating_rat smallINT not null check (rating_rat between 0 and 10),
 
     rating_usr1_id INT not null, -- rating usr Id
     rating_uw_id INT not null, --rated usrwork Id

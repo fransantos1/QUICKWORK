@@ -21,6 +21,8 @@ import java.util.concurrent.ExecutionException;
 
 import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
+import pt.iade.quickwork.Job.Job_creator;
+import pt.iade.quickwork.Job.Job_worker;
 import pt.iade.quickwork.models.User;
 
 public class users_list extends AppCompatActivity {

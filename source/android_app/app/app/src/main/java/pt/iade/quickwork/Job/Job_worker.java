@@ -1,4 +1,4 @@
-package pt.iade.quickwork;
+package pt.iade.quickwork.Job;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +15,11 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,12 +35,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import pt.iade.quickwork.Constants;
 import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
 import pt.iade.quickwork.DownloadTasks.Patchtask;
-import pt.iade.quickwork.DownloadTasks.PatchwithoutWrite;
+import pt.iade.quickwork.DownloadTasks.StringDownload;
+import pt.iade.quickwork.R;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
+import pt.iade.quickwork.utilities;
 
 public class Job_worker extends AppCompatActivity implements OnMapReadyCallback {
     TextView owner, users, workprice, worktype;
@@ -58,8 +61,7 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
     Button back_button, forward_button;
     LocationManager locationManager;
     LocationListener locationListener;
-
-
+    boolean refresh = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +112,7 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
             Log.i("trabalho teste", work.getStarted_time()+"");
         }
 
-
+        refresh_status(1000);
         worktype.setText(work.getType());
         workprice.setText(work.getPricehr().toString());
 
@@ -218,7 +220,45 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
         mapView.onLowMemory();
     }
 
-
+    public void refresh_status(int miliseconds){
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                GetStatus();
+            }
+        };
+        handler.postDelayed(runnable, miliseconds);
+    }
+    public void GetStatus() {
+        String Status = null;
+        String StatusTemp = null;
+        StringDownload tasktemp1 = new StringDownload();
+        try {
+            StatusTemp = tasktemp1.execute(Constants.api_server + "work/getState/" +work.getId()).get();
+            tasktemp1.cancel(true);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i("status", StatusTemp);
+        if(StatusTemp == null){
+            if(refresh){
+                refresh_status(1000);
+                Log.i("status", "couldnt get status");
+            }
+            return;
+        }
+        if(!StatusTemp.equals(Status)){
+            Status = StatusTemp;
+        }
+        if (Status.equals("Completo")){
+            refresh = false;
+            changeToRating();
+        }
+        tasktemp1 = null;
+        Log.i("refresh", "Still refreshing");
+        if (refresh){refresh_status(1000);}
+    }
 
     public void changetextView(int direction){
         int size = arrayusers.size();
@@ -246,7 +286,11 @@ public class Job_worker extends AppCompatActivity implements OnMapReadyCallback 
     }
 
 
-
+    public void changeToRating(){
+        Intent switchActivityIntent = new Intent(this, job_rating.class);
+        switchActivityIntent.putExtra("User", userLogged);
+        startActivity(switchActivityIntent);
+    }
 
     public ArrayList<User> populate_array(JSONArray jsonArray){
 

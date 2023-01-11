@@ -135,6 +135,7 @@ public class WorkController {
         
     }
     //finish job
+    //only used for overriding
     @PatchMapping(path= "/finish/{workid}", produces =MediaType.APPLICATION_JSON_VALUE)
     public void FinishJob(@PathVariable("workid") int id)throws NotFoundException{
         Optional<Work> _work = workrepository.findById(id);

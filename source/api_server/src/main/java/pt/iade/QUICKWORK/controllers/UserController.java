@@ -4,7 +4,6 @@ package pt.iade.QUICKWORK.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.StackWalker.Option;
 import java.util.Optional;
 
 import org.slf4j.Logger;

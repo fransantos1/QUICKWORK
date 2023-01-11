@@ -133,7 +133,7 @@ public interface WorkRepository extends CrudRepository<Work,Integer> {
                         " WHERE work_id = :workid ;"+
                         " insert into work_state (ws_work_id, ws_state_id) values ( :workid , 3);", nativeQuery = true)
         void FinishJob(@Param("workid") int id, @Param("time") LocalDateTime time);
-
+        
 
 
 

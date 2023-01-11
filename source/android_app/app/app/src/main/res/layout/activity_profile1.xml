@@ -30,14 +30,25 @@
         android:id="@+id/textviewnome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="52dp"
         android:text="nome"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginTop="100dp"
-        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@id/iconuser"
+        app:layout_constraintTop_toBottomOf="@id/greyicon" />
+
+    <ImageView
+        android:id="@+id/iconuser"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/ic_person"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/greyicon"
-        app:layout_constraintStart_toEndOf="@id/iconuser" />
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textviewemail"
@@ -80,18 +91,6 @@
         app:layout_constraintTop_toBottomOf="@id/textviewntrabalhos" />
 
 
-
-    <ImageView
-        android:id="@+id/iconuser"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_person"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="90dp"
-        app:layout_constraintTop_toBottomOf="@id/greyicon"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="ContentDescription" />
-
     <ImageView
         android:id="@+id/iconemail"
         android:layout_width="50dp"
@@ -124,4 +123,14 @@
         app:layout_constraintTop_toBottomOf="@id/iconnumerotrabalhos"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="ContentDescription" />
+
+    <Button
+        android:id="@+id/button_comentary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="254dp"
+        android:text="Comentário"
+        app:layout_constraintStart_toEndOf="@+id/textviewrating"
+        app:layout_constraintTop_toBottomOf="@+id/greyicon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

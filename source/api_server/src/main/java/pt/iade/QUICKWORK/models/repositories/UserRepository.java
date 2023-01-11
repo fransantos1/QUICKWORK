@@ -68,15 +68,22 @@ public interface UserRepository extends CrudRepository<User,Integer> {
                         " where usr_id = :usrid ", nativeQuery = true)
         void setlocation(@Param("usrid") int id, @Param("lat") Double lat, @Param("lon") Double lon);
 
-        
+        //--------------------------------------------------------------------------------------------
+
+        //add to njob
         @Transactional
         @Modifying
         @Query(value =  "UPDATE usr"+
                         " SET usr_njobs = :njob"+
                         " where usr_id = :usrid ", nativeQuery = true)
         void setnjob(@Param("usrid") int id, @Param("njob") int njob);
-
-
+        //update usr avg rating
+        @Transactional
+        @Modifying
+        @Query(value =  "UPDATE usr"+
+                        " SET usr_avg_rating = :rating"+
+                        " where usr_id = :usrid ", nativeQuery = true)
+        void setrating(@Param("usrid") int id, @Param("rating") int rating);
 
 
 

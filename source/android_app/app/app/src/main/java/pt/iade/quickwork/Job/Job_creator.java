@@ -1,4 +1,4 @@
-package pt.iade.quickwork;
+package pt.iade.quickwork.Job;
 
 import android.Manifest;
 import android.content.Intent;
@@ -25,20 +25,22 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import pt.iade.quickwork.Constants;
 import pt.iade.quickwork.DownloadTasks.DeleteMappingwithoutwrite;
 import pt.iade.quickwork.DownloadTasks.JSONarraydownloadtask;
 import pt.iade.quickwork.DownloadTasks.JSONobjdownloadtask;
-import pt.iade.quickwork.DownloadTasks.Patchtask;
 import pt.iade.quickwork.DownloadTasks.PatchwithoutWrite;
 import pt.iade.quickwork.DownloadTasks.StringDownload;
+import pt.iade.quickwork.R;
+import pt.iade.quickwork.jobsmap;
 import pt.iade.quickwork.models.User;
 import pt.iade.quickwork.models.Work;
+import pt.iade.quickwork.utilities;
 
 public class Job_creator extends AppCompatActivity implements OnMapReadyCallback {
     MapView mapView;
@@ -317,14 +319,11 @@ public class Job_creator extends AppCompatActivity implements OnMapReadyCallback
             for(int i= 0;i<urs.size(); i++){
                 addJob.execute(Constants.api_server+"user/"+ids.get(i)+"/addjob");
             }
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         if ( response == 200){
-            Intent switchActivityIntent = new Intent(this, jobsmap.class);
+            Intent switchActivityIntent = new Intent(this, job_rating.class);
             switchActivityIntent.putExtra("User", loggedUser);
             startActivity(switchActivityIntent);
         }else {
