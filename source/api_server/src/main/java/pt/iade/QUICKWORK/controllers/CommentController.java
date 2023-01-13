@@ -107,19 +107,11 @@ public ArrayList<Usrworkview> getLastWorkInfo(@PathVariable("usrid") int usrid) 
 
   return usrwork;
 } 
-
-
-
-
-
-
 //get comments from usrwork
   @GetMapping(path = "/{usrid}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Comment> getComments(@PathVariable("usrid") int usrid){
     Iterable<Comment> comments = commentRepository.getcomments(usrid);
     return comments;
   }  
-        
-
-   
+         
 }

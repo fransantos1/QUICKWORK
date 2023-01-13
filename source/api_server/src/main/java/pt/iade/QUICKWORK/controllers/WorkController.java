@@ -64,8 +64,7 @@ public class WorkController {
             Logger.info("Sending "+ id);
             return _work;
         }else throw new NotFoundException(""+id, "id", "Work" ); 
-    }  
-
+    } 
     //get all users from a work
     @GetMapping(path = "/users/{workid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ArrayList<customusrview> getusers(@PathVariable("workid") int id)throws NotFoundException{
@@ -97,6 +96,8 @@ public class WorkController {
         }else throw new NotFoundException(""+usrid, "user", "id");
 
     }
+
+    
     //get work from owner 
     @GetMapping(path = "/owner/{usrid}")
     public workview getworkfromowner(@PathVariable("usrid")int usr_id)throws NotFoundException{
@@ -175,17 +176,5 @@ public class WorkController {
         workrepository.acceptWork1(usrid, workid);
         //change state
         workrepository.setState(workid, 2);
-    } 
-
-
-
-
-
-    //TODO see all comments on a specified work
-
-    //TODO see all people that worked in a job
-
-
-
-    
+    }     
 }

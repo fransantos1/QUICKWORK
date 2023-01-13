@@ -40,11 +40,11 @@ public class Job_view extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workview);
-
+        LoggedUser = (User) getIntent().getSerializableExtra("User");
         JSONobjdownloadtask ownertask = new JSONobjdownloadtask();
         JSONobjdownloadtask task = new JSONobjdownloadtask();
         TypeDownloadtask task1 = new TypeDownloadtask();
-        LoggedUser = (User) getIntent().getSerializableExtra("User");
+
         int id = Integer.parseInt(getIntent().getStringExtra("workid"));
         Log.i("teste", "got here");
 
@@ -71,6 +71,7 @@ public class Job_view extends AppCompatActivity {
             e.printStackTrace();
         }
         owner = getowner();
+
         Log.i("owner", owner.getEmail());
 
         Log.i("Worktteste", selWork.toString());
@@ -149,7 +150,7 @@ public class Job_view extends AppCompatActivity {
 
                    */
                 user = utilities.populate_usr(getownerobj);
-                Log.i("user", owner.getName());
+                //Log.i("user", owner.getName());
             }catch (Exception e) {
                 e.printStackTrace();
             }

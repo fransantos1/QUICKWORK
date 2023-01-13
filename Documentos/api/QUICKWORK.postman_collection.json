@@ -1,0 +1,511 @@
+{
+	"info": {
+		"_postman_id": "db66824c-d767-490a-8496-c454e185ad05",
+		"name": "QUICKWORK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24105256"
+	},
+	"item": [
+		{
+			"name": "Work",
+			"item": [
+				{
+					"name": "show map jobs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/work",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/work/37",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work",
+								"37"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addWork",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricehr\": 20.0,\r\n    \"typeid\": 3,\r\n    \"lat\":2.4243,\r\n    \"lon\":25.5214\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/work/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get state of job",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/work/getState/46",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work",
+								"getState",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get work from owner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/work/owner/14",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work",
+								"owner",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get work from usr",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/work/user/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work",
+								"user",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete work",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/work/cancel/43",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work",
+								"cancel",
+								"43"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get users from work",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/work/users/90",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work",
+								"users",
+								"90"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/worktype",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"worktype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FInish work",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/finish/{workid}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"finish",
+								"{workid}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Work",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accept/{workid}/{usrid}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accept",
+								"{workid}",
+								"{usrid}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "add user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Teste adicionar trabalho\",\r\n    \"email\": \"teste@iml.com\",\r\n    \"password\": \"minhaconta\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/{id}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find job's creator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/owner/50",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"owner",
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users history",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/jobs/14",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"jobs",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add +1 to jobn",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/2/addjob",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"addjob"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/50/location",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"50",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "is user occupied?",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/50/occupied",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"50",
+								"occupied"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update location",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lat\": 38.63710393135703,\r\n    \"lon\": -8.91614491300229\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/9/location",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"9",
+								"location"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "PostComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"comment\":\"to alho2!!\",\r\n        \"rating\":11,\r\n        \"ratingusrid\": 14,\r\n        \"ratedusrwork\": 59       \r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/comment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get information for making a comment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/comment/usrwork/14",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comment",
+								"usrwork",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/comment/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comment",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		}
+	]
+}
